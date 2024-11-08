@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="proyecto_taller2ModelStoreContainer" CdmEntityContainer="proyecto_taller2Entities">
+    <EntitySetMapping Name="categoria">
+      <EntityTypeMapping TypeName="proyecto_taller2Model.categoria">
+        <MappingFragment StoreEntitySet="categoria">
+          <ScalarProperty Name="id_categoria" ColumnName="id_categoria" />
+          <ScalarProperty Name="descripcion_categoria" ColumnName="descripcion_categoria" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="clientes">
+      <EntityTypeMapping TypeName="proyecto_taller2Model.clientes">
+        <MappingFragment StoreEntitySet="clientes">
+          <ScalarProperty Name="estado_cliente" ColumnName="estado_cliente" />
+          <ScalarProperty Name="email_cliente" ColumnName="email_cliente" />
+          <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
+          <ScalarProperty Name="nombre_cliente" ColumnName="nombre_cliente" />
+          <ScalarProperty Name="apellido_cliente" ColumnName="apellido_cliente" />
+          <ScalarProperty Name="DNI_cliente" ColumnName="DNI_cliente" />
+          <ScalarProperty Name="telefono_cliente" ColumnName="telefono_cliente" />
+          <ScalarProperty Name="direccion_cliente" ColumnName="direccion_cliente" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="factura">
+      <EntityTypeMapping TypeName="proyecto_taller2Model.factura">
+        <MappingFragment StoreEntitySet="factura">
+          <ScalarProperty Name="id_factura" ColumnName="id_factura" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="tipo_pago" ColumnName="tipo_pago" />
+          <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
+          <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="factura_detalle">
+      <EntityTypeMapping TypeName="proyecto_taller2Model.factura_detalle">
+        <MappingFragment StoreEntitySet="factura_detalle">
+          <ScalarProperty Name="id_venta_detalle" ColumnName="id_venta_detalle" />
+          <ScalarProperty Name="id_producto" ColumnName="id_producto" />
+          <ScalarProperty Name="id_factura" ColumnName="id_factura" />
+          <ScalarProperty Name="importe_total" ColumnName="importe_total" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="marca">
+      <EntityTypeMapping TypeName="proyecto_taller2Model.marca">
+        <MappingFragment StoreEntitySet="marca">
+          <ScalarProperty Name="id_marca" ColumnName="id_marca" />
+          <ScalarProperty Name="descripcion_marca" ColumnName="descripcion_marca" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="productos">
+      <EntityTypeMapping TypeName="proyecto_taller2Model.productos">
+        <MappingFragment StoreEntitySet="productos">
+          <ScalarProperty Name="codigo_producto" ColumnName="codigo_producto" />
+          <ScalarProperty Name="estado_producto" ColumnName="estado_producto" />
+          <ScalarProperty Name="id_producto" ColumnName="id_producto" />
+          <ScalarProperty Name="nombre_producto" ColumnName="nombre_producto" />
+          <ScalarProperty Name="id_marca" ColumnName="id_marca" />
+          <ScalarProperty Name="stock" ColumnName="stock" />
+          <ScalarProperty Name="precio" ColumnName="precio" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="id_categoria" ColumnName="id_categoria" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tipo_usuario">
+      <EntityTypeMapping TypeName="proyecto_taller2Model.tipo_usuario">
+        <MappingFragment StoreEntitySet="tipo_usuario">
+          <ScalarProperty Name="id_tipo_usuario" ColumnName="id_tipo_usuario" />
+          <ScalarProperty Name="descripcion_tipo_usuario" ColumnName="descripcion_tipo_usuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="usuario">
+      <EntityTypeMapping TypeName="proyecto_taller2Model.usuario">
+        <MappingFragment StoreEntitySet="usuario">
+          <ScalarProperty Name="estado_usuario" ColumnName="estado_usuario" />
+          <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+          <ScalarProperty Name="nombre_usuario" ColumnName="nombre_usuario" />
+          <ScalarProperty Name="apellido_usuario" ColumnName="apellido_usuario" />
+          <ScalarProperty Name="telefono_usuario" ColumnName="telefono_usuario" />
+          <ScalarProperty Name="usuario1" ColumnName="usuario" />
+          <ScalarProperty Name="contraseña" ColumnName="contraseña" />
+          <ScalarProperty Name="id_tipo_usuario" ColumnName="id_tipo_usuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
