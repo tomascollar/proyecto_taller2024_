@@ -79,6 +79,7 @@ end
 
 exec sp_ReporteVentas '5/11/2024','6/11/2024'
 
+----sp para generar reporte de ventas por vendedor
 
 CREATE PROCEDURE sp_ReporteVentasPorVendedor
     @id_usuario INT
@@ -107,3 +108,84 @@ BEGIN
 END;
 
 EXEC sp_ReporteVentasPorVendedor @id_usuario = 9;
+
+------sp para generar grafico de ventas mensuales
+
+CREATE PROCEDURE sp_ReporteVentasMensuales
+AS
+BEGIN
+    SET DATEFORMAT dmy;
+    SELECT 
+        DATENAME(month, v.fecha_registro) AS Mes,
+        COUNT(*) AS TotalVentas,
+        SUM(v.monto_total) AS MontoTotal
+    FROM 
+        factura v
+    GROUP BY 
+        DATENAME(month, v.fecha_registro), MONTH(v.fecha_registro)
+    ORDER BY 
+        MONTH(v.fecha_registro);
+END
+
+----procedimiento para generar grafico torta producto mas vendido
+
+CREATE PROCEDURE sp_ProductosMasVendidos
+AS
+BEGIN
+    SELECT TOP 5
+        p.nombre_producto AS NombreProducto,
+        SUM(dv.cantidad) AS TotalVendidos
+    FROM
+        factura_detalle dv
+    INNER JOIN
+        productos p ON p.id_producto = dv.id_producto
+    GROUP BY
+        p.nombre_producto
+    ORDER BY
+        TotalVendidos DESC;
+END
+
+----sp para registrar una venta desde sql con una fecha q yo desee y no la actual
+
+CREATE PROCEDURE usp_RegistrarVentaConFecha
+(
+    @id_usuario INT,
+    @tipo_documento VARCHAR(500),
+    @numero_documento VARCHAR(500),
+    @dni_cliente VARCHAR(500),
+    @nombre_cliente VARCHAR(500),
+    @monto_total DECIMAL(18, 2),
+    @fecha_registro DATETIME,  -- Parámetro adicional para la fecha de registro
+    @DetalleVenta [EDetalle_Venta] READONLY,
+    @Resultado BIT OUTPUT,
+    @Mensaje VARCHAR(500) OUTPUT
+)
+AS
+BEGIN
+    BEGIN TRY
+        DECLARE @idventa INT = 0;
+        SET @Resultado = 1;
+        SET @Mensaje = '';
+
+        BEGIN TRANSACTION registro;
+
+        -- Inserta en factura con la fecha especificada
+        INSERT INTO factura(id_usuario, tipo_documento, numero_documento, dni_cliente, nombre_cliente, monto_total, fecha_registro)
+        VALUES(@id_usuario, @tipo_documento, @numero_documento, @dni_cliente, @nombre_cliente, @monto_total, @fecha_registro);
+
+        SET @idventa = SCOPE_IDENTITY();
+
+        -- Inserta en factura_detalle
+        INSERT INTO factura_detalle(id_factura, id_producto, precioVenta, cantidad, subTotal)
+        SELECT @idventa, IdProducto, Precio, Cantidad, SubTotal FROM @DetalleVenta;
+
+        COMMIT TRANSACTION registro;
+
+    END TRY
+    BEGIN CATCH
+        SET @Resultado = 0;
+        SET @Mensaje = ERROR_MESSAGE();
+        ROLLBACK TRANSACTION registro;
+    END CATCH
+END
+
