@@ -35,6 +35,8 @@ namespace ProyectoTaller2.CapaPresentacion.Administrador
         //Constructor
         public Form_Admin()
         {
+            
+
             InitializeComponent();
             //Inicializamos el Borde Izquierdo del boton
             leftBorderBtn = new Panel();

@@ -54,11 +54,11 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft YaHei Light", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Microsoft JhengHei", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(303, 0);
+            this.label3.Location = new System.Drawing.Point(279, 9);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(206, 31);
+            this.label3.Size = new System.Drawing.Size(218, 31);
             this.label3.TabIndex = 4;
             this.label3.Text = "Reportes Graficos";
             this.label3.Click += new System.EventHandler(this.label3_Click);
@@ -73,7 +73,7 @@
             this.chartVentas.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chartVentas.Legends.Add(legend1);
-            this.chartVentas.Location = new System.Drawing.Point(66, 34);
+            this.chartVentas.Location = new System.Drawing.Point(43, 47);
             this.chartVentas.Name = "chartVentas";
             this.chartVentas.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Berry;
             series1.ChartArea = "ChartArea1";
@@ -86,11 +86,12 @@
             // 
             // chart1
             // 
+            this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             chartArea2.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea2);
             legend2.Name = "Legend1";
             this.chart1.Legends.Add(legend2);
-            this.chart1.Location = new System.Drawing.Point(66, 34);
+            this.chart1.Location = new System.Drawing.Point(43, 47);
             this.chart1.Name = "chart1";
             series2.ChartArea = "ChartArea1";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
@@ -103,11 +104,12 @@
             // 
             // chartBarras
             // 
+            this.chartBarras.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             chartArea3.Name = "ChartArea1";
             this.chartBarras.ChartAreas.Add(chartArea3);
             legend3.Name = "Legend1";
             this.chartBarras.Legends.Add(legend3);
-            this.chartBarras.Location = new System.Drawing.Point(66, 34);
+            this.chartBarras.Location = new System.Drawing.Point(43, 47);
             this.chartBarras.Name = "chartBarras";
             series3.ChartArea = "ChartArea1";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
@@ -120,12 +122,15 @@
             // 
             // chartCategorias
             // 
+            this.chartCategorias.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.chartCategorias.BorderlineColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             chartArea4.Name = "ChartArea1";
             this.chartCategorias.ChartAreas.Add(chartArea4);
             legend4.Name = "Legend1";
             this.chartCategorias.Legends.Add(legend4);
-            this.chartCategorias.Location = new System.Drawing.Point(66, 34);
+            this.chartCategorias.Location = new System.Drawing.Point(43, 47);
             this.chartCategorias.Name = "chartCategorias";
+            this.chartCategorias.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
             series4.ChartArea = "ChartArea1";
             series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
             series4.Legend = "Legend1";
@@ -140,7 +145,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
-            this.ClientSize = new System.Drawing.Size(800, 417);
+            this.ClientSize = new System.Drawing.Size(778, 417);
             this.Controls.Add(this.chartCategorias);
             this.Controls.Add(this.chartBarras);
             this.Controls.Add(this.chart1);

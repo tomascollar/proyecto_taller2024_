@@ -174,6 +174,7 @@ namespace ProyectoTaller2
             this.btnMaximize.Size = new System.Drawing.Size(26, 25);
             this.btnMaximize.TabIndex = 10;
             this.btnMaximize.UseVisualStyleBackColor = true;
+            this.btnMaximize.Visible = false;
             this.btnMaximize.Click += new System.EventHandler(this.btnMaximize_Click);
             // 
             // btnMinimize
