@@ -52,6 +52,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnBuscarProd = new FontAwesome.Sharp.IconButton();
             this.btnLimpiarFiltro = new FontAwesome.Sharp.IconButton();
+            this.btnReactivar = new FontAwesome.Sharp.IconButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridProductos)).BeginInit();
             this.SuspendLayout();
             // 
@@ -330,6 +331,19 @@
             this.btnLimpiarFiltro.UseVisualStyleBackColor = true;
             this.btnLimpiarFiltro.Click += new System.EventHandler(this.btnLimpiarFiltro_Click);
             // 
+            // btnReactivar
+            // 
+            this.btnReactivar.IconChar = FontAwesome.Sharp.IconChar.None;
+            this.btnReactivar.IconColor = System.Drawing.Color.Black;
+            this.btnReactivar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnReactivar.Location = new System.Drawing.Point(656, 176);
+            this.btnReactivar.Name = "btnReactivar";
+            this.btnReactivar.Size = new System.Drawing.Size(75, 41);
+            this.btnReactivar.TabIndex = 25;
+            this.btnReactivar.Text = "Reactivar Producto";
+            this.btnReactivar.UseVisualStyleBackColor = true;
+            this.btnReactivar.Click += new System.EventHandler(this.btnReactivar_Click);
+            // 
             // FormProductosAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -337,6 +351,7 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
             this.ClientSize = new System.Drawing.Size(777, 456);
+            this.Controls.Add(this.btnReactivar);
             this.Controls.Add(this.btnLimpiarFiltro);
             this.Controls.Add(this.btnBuscarProd);
             this.Controls.Add(this.textBox1);
@@ -391,5 +406,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private FontAwesome.Sharp.IconButton btnBuscarProd;
         private FontAwesome.Sharp.IconButton btnLimpiarFiltro;
+        private FontAwesome.Sharp.IconButton btnReactivar;
     }
 }

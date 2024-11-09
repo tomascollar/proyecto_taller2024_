@@ -1,4 +1,5 @@
-﻿using ProyectoTaller2.Capa_Negocio;
+﻿using iTextSharp.text.pdf.codec.wmf;
+using ProyectoTaller2.Capa_Negocio;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,15 +36,31 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
         {
             if (dataGridProductos.SelectedRows.Count > 0)
             {
-                btnEliminarProd.Enabled = true;
-                btnEditarProd.Enabled = true;
-                //btnAgregarProd.Enabled = false;
+                // Obtener el estado del producto seleccionado
+                string estado = dataGridProductos.SelectedRows[0].Cells["estadoprod"].Value.ToString();
+
+                // Si el producto está inactivo, habilitar solo el botón de reactivar y deshabilitar los demás
+                if (estado == "Inactivo")
+                {
+                    btnEliminarProd.Enabled = false;
+                    btnEditarProd.Enabled = false;
+                    btnReactivar.Visible = true;
+                    btnReactivar.Enabled = true;
+                }
+                else
+                {
+                    // Si el producto está activo, habilitar los botones de eliminar y editar, y ocultar el botón de reactivar
+                    btnEliminarProd.Enabled = true;
+                    btnEditarProd.Enabled = true;
+                    btnReactivar.Visible = false;
+                }
 
             }
             else
             {
                 btnEliminarProd.Enabled = false;
                 btnEditarProd.Enabled = false;
+                btnReactivar.Visible = false;
             }
         }
 
@@ -80,16 +97,27 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
 
         private void btnEliminarProd_Click(object sender, EventArgs e)
         {
-            int filaSeleccionada;
-            filaSeleccionada = dataGridProductos.CurrentRow.Index;
-            
-            var msg = MessageBox.Show("Seguro desea eliminar este producto?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (msg == DialogResult.Yes)
+            if (dataGridProductos.SelectedRows.Count > 0)
             {
+                // Obtener el ID del producto seleccionado
+                int idProducto = Convert.ToInt32(dataGridProductos.SelectedRows[0].Cells["idprod"].Value);
 
+                // Confirmar la eliminación
+                var confirmResult = MessageBox.Show("¿Estás seguro de que deseas eliminar este producto?",
+                                                    "Confirmar eliminación",
+                                                    MessageBoxButtons.YesNo);
+                if (confirmResult == DialogResult.Yes)
+                {
+                    // Llamar al método para realizar la baja lógica
+                    DarDeBajaProducto(idProducto);
 
-                dataGridProductos.Rows[filaSeleccionada].DefaultCellStyle.BackColor = Color.Red;
-                
+                    // Recargar los productos para reflejar los cambios
+                    cargarProductos();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, selecciona un producto para eliminar.");
             }
         }
 
@@ -222,7 +250,8 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
                                 stock = p.stock,
                                 precio = p.precio,
                                 descripcion = p.descripcion,
-                                categoria = c.descripcion_categoria
+                                categoria = c.descripcion_categoria,
+                                estadoprod = p.estado_producto
                             };
                 dataGridProductos.DataSource = query.ToList();
             }            
@@ -247,6 +276,7 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
         {
             dataGridProductos.Columns[0].Width = 50;
             dataGridProductos.Columns[0].HeaderText = "Id";
+            dataGridProductos.Columns[0].Visible = false;
             dataGridProductos.Columns[1].HeaderText = "Codigo";
             dataGridProductos.Columns[2].HeaderText = "Nombre";
             dataGridProductos.Columns[3].HeaderText = "Marca";
@@ -254,6 +284,7 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
             dataGridProductos.Columns[5].HeaderText = "Precio";
             dataGridProductos.Columns[6].HeaderText = "Descripcion";
             dataGridProductos.Columns[7].HeaderText = "Categoria";
+            dataGridProductos.Columns[8].HeaderText = "Estado del producto";
         }
 
         private void btnLimpiarFiltro_Click(object sender, EventArgs e)
@@ -292,13 +323,109 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
         {
             foreach (DataGridViewRow row in dataGridProductos.Rows)
             {
-                int stock = Convert.ToInt32(row.Cells["stock"].Value);
-                if (stock == 0)
+                // Obtener el estado del producto
+                string estado = row.Cells["estadoprod"].Value.ToString();
+
+                // Si el producto está inactivo, colorear toda la fila en gris
+                if (estado == "Inactivo")
                 {
-                    row.DefaultCellStyle.BackColor = Color.Red;
-                    row.DefaultCellStyle.ForeColor = Color.White; // Cambia el texto a blanco para visibilidad
+                    row.DefaultCellStyle.BackColor = Color.Gray;
+                    row.DefaultCellStyle.ForeColor = Color.White;
+                }
+                else
+                {
+                    // Si el producto está activo, verificar si el stock es 0 y colorear solo la celda de stock
+                    int stock = Convert.ToInt32(row.Cells["stock"].Value);
+                    if (stock == 0)
+                    {
+                        row.Cells["stock"].Style.BackColor = Color.Red;
+                        row.Cells["stock"].Style.ForeColor = Color.White;
+                    }
+                    else
+                    {
+                        // Restablecer el estilo de la celda de stock si no es 0
+                        row.Cells["stock"].Style.BackColor = dataGridProductos.DefaultCellStyle.BackColor;
+                        row.Cells["stock"].Style.ForeColor = dataGridProductos.DefaultCellStyle.ForeColor;
+                    }
+
+                    // Restablecer el estilo de la fila para productos activos
+                    row.DefaultCellStyle.BackColor = dataGridProductos.DefaultCellStyle.BackColor;
+                    row.DefaultCellStyle.ForeColor = dataGridProductos.DefaultCellStyle.ForeColor;
+                }
+
+
+            }
+        }
+
+        private void DarDeBajaProducto(int idProducto)
+        {
+            using (var context = new proyecto_taller2Entities())
+            {
+                // Buscar el producto en la base de datos
+                var producto = context.productos.FirstOrDefault(p => p.id_producto == idProducto);
+                if (producto != null)
+                {
+                    // Cambiar el estado del producto a "Inactivo"
+                    producto.estado_producto = "Inactivo";
+
+                    // Guardar los cambios en la base de datos
+                    context.SaveChanges();
+                }
+                else
+                {
+                    MessageBox.Show("No se encontró el producto seleccionado.");
                 }
             }
         }
+
+        private void btnReactivar_Click(object sender, EventArgs e)
+        {
+            if (dataGridProductos.SelectedRows.Count > 0)
+            {
+                // Obtener el ID del producto seleccionado
+                int idProducto = Convert.ToInt32(dataGridProductos.SelectedRows[0].Cells["idprod"].Value);
+
+                // Confirmar la reactivación
+                var confirmResult = MessageBox.Show("¿Estás seguro de que deseas reactivar este producto?",
+                                                    "Confirmar reactivación",
+                                                    MessageBoxButtons.YesNo);
+                if (confirmResult == DialogResult.Yes)
+                {
+                    // Llamar al método para reactivar el producto
+                    ReactivarProducto(idProducto);
+
+                    // Recargar los productos para reflejar los cambios
+                    cargarProductos();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, selecciona un producto para reactivar.");
+            }
+        }
+
+        private void ReactivarProducto(int idProducto)
+        {
+            using (var context = new proyecto_taller2Entities())
+            {
+                // Buscar el producto en la base de datos
+                var producto = context.productos.FirstOrDefault(p => p.id_producto == idProducto);
+                if (producto != null)
+                {
+                    // Cambiar el estado del producto a "Activo"
+                    producto.estado_producto = "Activo";
+
+                    // Guardar los cambios en la base de datos
+                    context.SaveChanges();
+                }
+                else
+                {
+                    MessageBox.Show("No se encontró el producto seleccionado.");
+                }
+            }
+        }
+
     }
+
+
 }

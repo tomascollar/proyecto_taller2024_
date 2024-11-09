@@ -36,7 +36,7 @@ namespace ProyectoTaller2.Capa_Presentacion.Vendedor
                 var query = from p in context.productos
                             join m in context.marca on p.id_marca equals m.id_marca
                             join c in context.categoria on p.id_categoria equals c.id_categoria
-                            where p.stock > 0
+                            where p.stock > 0 && p.estado_producto == "Activo"
                             select new
                             {
                                 idprod = p.id_producto,
@@ -68,7 +68,7 @@ namespace ProyectoTaller2.Capa_Presentacion.Vendedor
             dataGridListaProductos.Columns[7].Visible = false;
 
 
-            //dataGridListaProductos.Columns[3].HeaderText = "Precio";
+            
         }
 
         ErrorProvider errorP = new ErrorProvider();
