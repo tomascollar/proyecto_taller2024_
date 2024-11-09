@@ -26,6 +26,11 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
             CargarGrafico(); //Grafico producto mas vendido
             CargarClientesMasVentasEnBarras();  // Carga el gráfico de barras de los clientes con más ventas
             CargarCategoriasMasVendidasEnBarras();  // Carga el gráfico de líneas de las categorías de productos más vendidas
+
+            chartCategorias.Visible = false; //grafico categorias
+            chartVentas.Visible = false;     // grafico ventas mensuales
+            chart1.Visible = false;          //prod mas vendido
+            chartBarras.Visible = false;     //Cliente mas compras
         }
 
 
@@ -199,7 +204,37 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
             }
         }
 
+        public void MostrarGrafico(string tipoGrafico)
+        {
+            // Supongamos que tienes tres gráficos: chartBarras, chartLinea, chartTorta
+            // Puedes agregar más si tienes más gráficos
 
+            // Ocultar todos los gráficos
+
+            chartCategorias.Visible = false; //grafico categorias
+            chartVentas.Visible = false;     // grafico ventas mensuales
+            chart1.Visible = false;          //prod mas vendido
+            chartBarras.Visible = false;     //Cliente mas compras
+
+
+            // Mostrar solo el gráfico correspondiente
+            switch (tipoGrafico)
+            {
+                case "Producto":
+                    chart1.Visible = true;
+                    break;
+                case "Categorias":
+                    chartCategorias.Visible = true;
+                    break;
+                case "Clientes":
+                    chartBarras.Visible = true;
+                    break;
+                case "Ventas":
+                    chartVentas.Visible = true;
+                    break;
+                    // Agrega más casos si tienes más gráficos
+            }
+        }
 
 
         private void label3_Click(object sender, EventArgs e)

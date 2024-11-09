@@ -38,5 +38,6 @@ VALUES ('Coca Cola');
 INSERT INTO marca (descripcion_marca)
 VALUES ('Pepsi');
 
-
+INSERT INTO marca (descripcion_marca)
+VALUES ('Bayer');
 

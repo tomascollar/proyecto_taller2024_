@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Admin));
             this.panelMenu = new System.Windows.Forms.Panel();
             this.btnClientes = new FontAwesome.Sharp.IconButton();
@@ -46,11 +47,17 @@
             this.iconCurrentChildForm = new FontAwesome.Sharp.IconPictureBox();
             this.panelShadow = new System.Windows.Forms.Panel();
             this.panelDesktop = new System.Windows.Forms.Panel();
+            this.menuReportes = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.catMasVendida = new System.Windows.Forms.ToolStripMenuItem();
+            this.clienteMasCompras = new System.Windows.Forms.ToolStripMenuItem();
+            this.prodMasVendido = new System.Windows.Forms.ToolStripMenuItem();
+            this.ventasMensuales = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnHome)).BeginInit();
             this.panelTitle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconCurrentChildForm)).BeginInit();
+            this.menuReportes.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMenu
@@ -318,6 +325,44 @@
             this.panelDesktop.Size = new System.Drawing.Size(781, 437);
             this.panelDesktop.TabIndex = 3;
             // 
+            // menuReportes
+            // 
+            this.menuReportes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.catMasVendida,
+            this.clienteMasCompras,
+            this.prodMasVendido,
+            this.ventasMensuales});
+            this.menuReportes.Name = "menuReportes";
+            this.menuReportes.Size = new System.Drawing.Size(209, 114);
+            // 
+            // catMasVendida
+            // 
+            this.catMasVendida.Name = "catMasVendida";
+            this.catMasVendida.Size = new System.Drawing.Size(208, 22);
+            this.catMasVendida.Text = "Categoria mas vendida";
+            this.catMasVendida.Click += new System.EventHandler(this.catMasVendida_Click);
+            // 
+            // clienteMasCompras
+            // 
+            this.clienteMasCompras.Name = "clienteMasCompras";
+            this.clienteMasCompras.Size = new System.Drawing.Size(208, 22);
+            this.clienteMasCompras.Text = "Cliente con mas compras";
+            this.clienteMasCompras.Click += new System.EventHandler(this.clienteMasCompras_Click);
+            // 
+            // prodMasVendido
+            // 
+            this.prodMasVendido.Name = "prodMasVendido";
+            this.prodMasVendido.Size = new System.Drawing.Size(208, 22);
+            this.prodMasVendido.Text = "Productos mas vendidos";
+            this.prodMasVendido.Click += new System.EventHandler(this.prodMasVendido_Click);
+            // 
+            // ventasMensuales
+            // 
+            this.ventasMensuales.Name = "ventasMensuales";
+            this.ventasMensuales.Size = new System.Drawing.Size(208, 22);
+            this.ventasMensuales.Text = "Ventas Mensuales";
+            this.ventasMensuales.Click += new System.EventHandler(this.ventasMensuales_Click);
+            // 
             // Form_Admin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -339,6 +384,7 @@
             this.panelTitle.ResumeLayout(false);
             this.panelTitle.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconCurrentChildForm)).EndInit();
+            this.menuReportes.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -362,6 +408,11 @@
         private System.Windows.Forms.Label lblPerfil;
         private FontAwesome.Sharp.IconButton btnReportes;
         private FontAwesome.Sharp.IconButton btnClientes;
+        private System.Windows.Forms.ContextMenuStrip menuReportes;
+        private System.Windows.Forms.ToolStripMenuItem catMasVendida;
+        private System.Windows.Forms.ToolStripMenuItem clienteMasCompras;
+        private System.Windows.Forms.ToolStripMenuItem prodMasVendido;
+        private System.Windows.Forms.ToolStripMenuItem ventasMensuales;
     }
 }
 

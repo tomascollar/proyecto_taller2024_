@@ -272,7 +272,36 @@ namespace ProyectoTaller2.CapaPresentacion.Administrador
         private void btnReportes_Click(object sender, EventArgs e)
         {
             ActivateButton(sender, RGBColors.color4);
+            menuReportes.Show(btnReportes, new Point(0, btnReportes.Height));
+            //openChildForm(new Reporte_ventas());
+        }
+
+        private void catMasVendida_Click(object sender, EventArgs e)
+        {
             openChildForm(new Reporte_ventas());
+            var reporteVentas = Application.OpenForms["Reporte_ventas"] as Reporte_ventas;
+            reporteVentas?.MostrarGrafico("Categorias");
+        }
+
+        private void clienteMasCompras_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Reporte_ventas());
+            var reporteVentas = Application.OpenForms["Reporte_ventas"] as Reporte_ventas;
+            reporteVentas?.MostrarGrafico("Clientes");
+        }
+
+        private void prodMasVendido_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Reporte_ventas());
+            var reporteVentas = Application.OpenForms["Reporte_ventas"] as Reporte_ventas;
+            reporteVentas?.MostrarGrafico("Producto");
+        }
+
+        private void ventasMensuales_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Reporte_ventas());
+            var reporteVentas = Application.OpenForms["Reporte_ventas"] as Reporte_ventas;
+            reporteVentas?.MostrarGrafico("Ventas");
         }
     }
 }

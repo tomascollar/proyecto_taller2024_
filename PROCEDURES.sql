@@ -77,7 +77,7 @@ where CONVERT(date, v.fecha_registro) between @fechainicio and @fechafin
 end
 
 
-exec sp_ReporteVentas '5/11/2024','6/11/2024'
+exec sp_ReporteVentas '2/11/2024','11/11/2024'
 
 ----sp para generar reporte de ventas por vendedor
 
@@ -210,3 +210,43 @@ BEGIN
     SET estado_cliente = 'Inactivo'
     WHERE id_cliente = @id_cliente;
 END;
+
+-----procedimiento almacenado cliente con mas ventas 
+
+CREATE PROCEDURE sp_ClientesMasVentas
+AS
+BEGIN
+    SELECT TOP 5
+        c.nombre_cliente AS NombreCliente,
+        SUM(f.monto_total) AS TotalGastado
+    FROM 
+        factura f
+    INNER JOIN
+        clientes c ON c.dni_cliente = f.dni_cliente -- Relacionamos por dni_cliente
+    GROUP BY
+        c.nombre_cliente
+    ORDER BY
+        TotalGastado DESC;
+END
+
+
+----- procedimiento almacenado categoria de producto mas vendida
+
+CREATE PROCEDURE sp_CategoriasMasVendidas
+AS
+BEGIN
+    SELECT TOP 5
+        c.descripcion_categoria AS Categoria,
+        SUM(dv.cantidad) AS TotalVendidos
+    FROM 
+        factura_detalle dv
+    INNER JOIN
+        productos p ON p.id_producto = dv.id_producto
+    INNER JOIN
+        categoria c ON c.id_categoria = p.id_categoria
+    GROUP BY
+        c.descripcion_categoria
+    ORDER BY
+        TotalVendidos DESC;
+END
+
