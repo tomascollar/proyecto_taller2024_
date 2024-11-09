@@ -20,12 +20,23 @@ namespace ProyectoTaller2.Capa_Presentacion.Vendedor
 
         private void Form_ListaProductos_Load(object sender, EventArgs e)
         {
-            comboListarProducto.SelectedIndex = 0;
+            foreach (DataGridViewColumn columna in dataGridListaProductos.Columns)
+            {
+                comboListarProducto.Items.Add(new OpcionCombo() { Valor = columna.Name, Texto = columna.HeaderText });
+            }
+
+            comboListarProducto.DisplayMember = "Texto";
+            comboListarProducto.ValueMember = "Valor";
+           // comboListarProducto.SelectedIndex = 0;
+
+
+
             using (var context = new proyecto_taller2Entities())
             {
                 var query = from p in context.productos
                             join m in context.marca on p.id_marca equals m.id_marca
                             join c in context.categoria on p.id_categoria equals c.id_categoria
+                            where p.stock > 0
                             select new
                             {
                                 idprod = p.id_producto,
@@ -108,7 +119,7 @@ namespace ProyectoTaller2.Capa_Presentacion.Vendedor
         private void btnLimpiarFiltro_Click(object sender, EventArgs e)
         {
             txtBuscarProducto.Text = "";
-            foreach (DataGridView row in dataGridListaProductos.Rows)
+            foreach (DataGridViewRow row in dataGridListaProductos.Rows)
             {
                 row.Visible = true;
             }

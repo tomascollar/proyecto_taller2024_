@@ -52,78 +52,6 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
             Form_AgregarProducto _form = new Form_AgregarProducto();
             _form.ShowDialog();
 
-
-            /*   if (string.IsNullOrEmpty(txtNombreProd.Text) || string.IsNullOrEmpty(txtStockProd.Text) ||
-                   string.IsNullOrEmpty(txtPrecioProd.Text) || string.IsNullOrEmpty(txtDescripProd.Text) ||
-                   comboMarca.SelectedItem == null || comboCategoriaProd.SelectedItem == null ) {
-
-                   MessageBox.Show("Debe completar todos los campos","Alerta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-               }
-               else
-               {
-                   var msg = MessageBox.Show("Esta seguro de añadir este producto?", "Guardar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                   if (msg == DialogResult.Yes)
-                   {
-                       MessageBox.Show("El producto se agrego correctamente", "Agregar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                       string nombre = txtNombreProd.Text;
-                       string descripcion = txtDescripProd.Text;
-                       int stock = Convert.ToInt32(txtStockProd.Text);
-                       double precio = Convert.ToDouble(txtPrecioProd.Text);
-                       //falta resolver marca
-                       //falta resolver categoria
-                       //var categoriaSeleccionada = (categoria)comboCategoriaProd.SelectedItem;
-                       //int idCategoria = categoriaSeleccionada.id_categoria;
-
-                       var context = new proyecto_taller2Entities();
-                       string descCategoriaSeleccionada = comboCategoriaProd.SelectedItem.ToString();
-
-                       categoria categoriaSeleccionada = context.categoria.SingleOrDefault(c => c.descripcion_categoria == descCategoriaSeleccionada);
-
-                       int idCategoria = categoriaSeleccionada.id_categoria;
-
-
-                       string descMarca = comboMarca.SelectedItem.ToString();
-
-                       marca marcaSeleccionada = context.marca.SingleOrDefault(c => c.descripcion_marca == descMarca);
-
-                       int idMarca = marcaSeleccionada.id_marca;
-
-
-                       var nuevoProd = new NegocioProducto();
-                       nuevoProd.AgregarProducto(nombre, idMarca, stock, precio, descripcion, idCategoria);
-
-                       txtDescripProd.Clear();
-                       comboMarca.SelectedIndex = -1;
-                       txtNombreProd.Clear();
-                       txtPrecioProd.Clear();
-                       txtStockProd.Clear();
-                       comboCategoriaProd.SelectedIndex = -1;
-
-                       dataGridProductos.Refresh();
-            */
-
-            //HAsta aca funcionaba bien
-
-            /*
-            var nombre = txtNombreProd.Text;
-            var marca = txtMarcaProd.Text;
-            var stock = txtStockProd.Text;
-            var descrip = txtDescripProd.Text;
-            var precio = Convert.ToInt32(txtPrecioProd.Text);
-            var categoria = comboCategoriaProd.SelectedItem;
-
-            dataGridProductos.Rows.Add(nombre, marca, stock, precio, descrip, categoria);
-
-
-            txtNombreProd.Clear();
-            txtMarcaProd.Clear();
-            txtStockProd.Clear();
-            txtDescripProd.Clear();
-            txtPrecioProd.Clear();
-            comboCategoriaProd.SelectedItem = null;
-            */
-
         }
 
     
@@ -168,63 +96,83 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
         private void btnEditarProd_Click(object sender, EventArgs e)
         {
 
-            int filaSeleccionada;
-            filaSeleccionada = dataGridProductos.CurrentRow.Index;
-
-            if (string.IsNullOrEmpty(txtNombreProd.Text) || string.IsNullOrEmpty(txtStockProd.Text) ||
-                string.IsNullOrEmpty(txtPrecioProd.Text) || string.IsNullOrEmpty(txtDescripProd.Text) ||
-                comboMarca.SelectedItem == null || comboCategoriaProd.SelectedItem == null)
+            if (dataGridProductos.SelectedRows.Count > 0)
             {
+                int idProducto = Convert.ToInt32(dataGridProductos.SelectedRows[0].Cells["idprod"].Value);
 
-                MessageBox.Show("Debe completar todos los campos", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                using (var context = new proyecto_taller2Entities())
+                {
+                    // Buscar el producto en la base de datos
+                    var producto = context.productos.SingleOrDefault(p => p.id_producto == idProducto);
+
+                    if (producto != null)
+                    {
+                        // Actualizar los campos del producto con los valores de los TextBox y ComboBox
+                        producto.nombre_producto = txtNombreProd.Text;
+                        producto.stock = int.Parse(txtStockProd.Text);
+                        producto.precio = double.Parse(txtPrecioProd.Text);
+                        producto.descripcion = txtDescripProd.Text;
+
+                        // Obtener la marca seleccionada
+                        string descMarcaSeleccionada = comboMarca.Text;
+                        var marca = context.marca.SingleOrDefault(m => m.descripcion_marca == descMarcaSeleccionada);
+                        if (marca != null)
+                        {
+                            producto.id_marca = marca.id_marca;
+                        }
+
+                        // Obtener la categoría seleccionada
+                        string descCategoriaSeleccionada = comboCategoriaProd.Text;
+                        var categoria = context.categoria.SingleOrDefault(c => c.descripcion_categoria == descCategoriaSeleccionada);
+                        if (categoria != null)
+                        {
+                            producto.id_categoria = categoria.id_categoria;
+                        }
+
+                        // Guardar cambios en la base de datos
+                        context.SaveChanges();
+
+                        MessageBox.Show("Producto actualizado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        txtNombreProd.Text = "";
+                        txtDescripProd.Text = "";
+                        txtPrecioProd.Text = "";
+                        txtStockProd.Text = "";
+                        comboCategoriaProd.SelectedIndex = -1;
+                        comboMarca.SelectedIndex = -1;
+
+
+
+                        // Recargar el DataGridView
+                        cargarProductos();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Producto no encontrado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
             else
             {
-                var msg = MessageBox.Show("Esta seguro que desea editar este producto con los campos escritos?", "Guardar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (msg == DialogResult.Yes)
-                {
-                    var nombre = txtNombreProd.Text;
-                    var marca = comboMarca.SelectedItem;
-                    var stock = Convert.ToInt32(txtStockProd.Text);
-                    var descrip = txtDescripProd.Text;
-                    var precio = Convert.ToInt32(txtPrecioProd.Text);
-                    var categoria = comboCategoriaProd.SelectedItem;
-
-                    dataGridProductos[1, filaSeleccionada].Value = nombre;
-                    dataGridProductos[2, filaSeleccionada].Value = marca;
-                    dataGridProductos[3, filaSeleccionada].Value = stock;
-                    dataGridProductos[4, filaSeleccionada].Value = precio;
-                    dataGridProductos[5, filaSeleccionada].Value = descrip;
-                    dataGridProductos[6, filaSeleccionada].Value = categoria;
- 
-
-                    
-
-                    txtNombreProd.Clear();
-                    comboMarca.SelectedItem = null;
-                    txtStockProd.Clear();
-                    txtDescripProd.Clear();
-                    txtPrecioProd.Clear();
-                    comboCategoriaProd.SelectedItem = null;
-
-                }
-
+                MessageBox.Show("Seleccione un producto para editar", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+
+
         }
 
         private void dataGridProductos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            txtNombreProd.Text = dataGridProductos.Rows[e.RowIndex].Cells[1].Value.ToString();
-            comboMarca.Text = dataGridProductos.Rows[e.RowIndex].Cells[2].Value.ToString();
-            txtStockProd.Text = dataGridProductos.Rows[e.RowIndex].Cells[3].Value.ToString();
-            txtPrecioProd.Text = dataGridProductos.Rows[e.RowIndex].Cells[4].Value.ToString();
-            txtDescripProd.Text = dataGridProductos.Rows[e.RowIndex].Cells[5].Value.ToString();
-            comboCategoriaProd.Text = dataGridProductos.Rows[e.RowIndex].Cells[6].Value.ToString();
+            txtNombreProd.Text = dataGridProductos.Rows[e.RowIndex].Cells[2].Value.ToString();
+            comboMarca.Text = dataGridProductos.Rows[e.RowIndex].Cells[3].Value.ToString();
+            txtStockProd.Text = dataGridProductos.Rows[e.RowIndex].Cells[4].Value.ToString();
+            txtPrecioProd.Text = dataGridProductos.Rows[e.RowIndex].Cells[5].Value.ToString();
+            txtDescripProd.Text = dataGridProductos.Rows[e.RowIndex].Cells[6].Value.ToString();
+            comboCategoriaProd.Text = dataGridProductos.Rows[e.RowIndex].Cells[7].Value.ToString();
         }
 
         private void FormProductosAdmin_Load(object sender, EventArgs e)
         {
-            //LlenarCombos();
+            LlenarCombos();
             cargarProductos();
 
             foreach (DataGridViewColumn columna in dataGridProductos.Columns)
@@ -235,6 +183,7 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
             comboBox1.DisplayMember = "Texto";
             comboBox1.ValueMember = "Valor";
             comboBox1.SelectedIndex = 0;
+
 
         }
 
@@ -276,24 +225,26 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
                                 categoria = c.descripcion_categoria
                             };
                 dataGridProductos.DataSource = query.ToList();
-            }
-
-
-              //  dataGridProductos.DataSource = datos;
-
-            
+            }            
 
             this.formato();
-
             dataGridProductos.ClearSelection();
+
+            // Pintar las filas con stock 0
+            foreach (DataGridViewRow row in dataGridProductos.Rows)
+            {
+                int stock = Convert.ToInt32(row.Cells["Stock"].Value);
+                if (stock == 0)
+                {
+                    row.DefaultCellStyle.BackColor = Color.Red;
+                    row.DefaultCellStyle.ForeColor = Color.White; // Cambia el texto a blanco para visibilidad
+                }
+            }
+
         }
 
         private void formato()
         {
-
-            //dataGridProductos.Columns[7].Visible = false;
-            //dataGridProductos.Columns[8].Visible = false;
-            //dataGridProductos.Columns[9].Visible = false;
             dataGridProductos.Columns[0].Width = 50;
             dataGridProductos.Columns[0].HeaderText = "Id";
             dataGridProductos.Columns[1].HeaderText = "Codigo";
@@ -303,10 +254,6 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
             dataGridProductos.Columns[5].HeaderText = "Precio";
             dataGridProductos.Columns[6].HeaderText = "Descripcion";
             dataGridProductos.Columns[7].HeaderText = "Categoria";
-
-
-
-
         }
 
         private void btnLimpiarFiltro_Click(object sender, EventArgs e)
@@ -324,12 +271,32 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
 
             if (dataGridProductos.Rows.Count > 0)
             {
+                // Desactiva temporalmente el modo de administración de divisa
+                CurrencyManager currencyManager = (CurrencyManager)BindingContext[dataGridProductos.DataSource];
+                currencyManager.SuspendBinding();
+
                 foreach (DataGridViewRow row in dataGridProductos.Rows)
                 {
                     if (row.Cells[columnaFiltro].Value.ToString().Trim().ToUpper().Contains(textBox1.Text.Trim().ToUpper()))
                         row.Visible = true;
                     else
                         row.Visible = false;
+                }
+
+                // Reactiva el modo de administración de divisa
+                currencyManager.ResumeBinding();
+            }
+        }
+
+        private void dataGridProductos_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridProductos.Rows)
+            {
+                int stock = Convert.ToInt32(row.Cells["stock"].Value);
+                if (stock == 0)
+                {
+                    row.DefaultCellStyle.BackColor = Color.Red;
+                    row.DefaultCellStyle.ForeColor = Color.White; // Cambia el texto a blanco para visibilidad
                 }
             }
         }

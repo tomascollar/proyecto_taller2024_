@@ -49,6 +49,10 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
 
             if (dataGridVendedores.Rows.Count > 0)
             {
+                // Desactiva temporalmente el modo de administración de divisa
+                CurrencyManager currencyManager = (CurrencyManager)BindingContext[dataGridVendedores.DataSource];
+                currencyManager.SuspendBinding();
+
                 foreach (DataGridViewRow row in dataGridVendedores.Rows)
                 {
                     if (row.Cells[columnaFiltro].Value.ToString().Trim().ToUpper().Contains(txtNombreVendedor.Text.Trim().ToUpper()))
@@ -56,6 +60,9 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
                     else
                         row.Visible = false;
                 }
+
+                // Reactiva el modo de administración de divisa
+                currencyManager.ResumeBinding();
             }
         }
 

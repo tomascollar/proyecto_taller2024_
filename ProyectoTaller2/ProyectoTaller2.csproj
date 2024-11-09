@@ -317,6 +317,12 @@
     <Compile Include="Capa Presentacion\Administrador\Form_AgregarProducto.Designer.cs">
       <DependentUpon>Form_AgregarProducto.cs</DependentUpon>
     </Compile>
+    <Compile Include="Capa Presentacion\Administrador\Form_Editar_Cliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Capa Presentacion\Administrador\Form_Editar_Cliente.Designer.cs">
+      <DependentUpon>Form_Editar_Cliente.cs</DependentUpon>
+    </Compile>
     <Compile Include="Capa Presentacion\Administrador\Reporte_ventas.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -499,6 +505,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Capa Presentacion\Administrador\Form_AgregarProducto.resx">
       <DependentUpon>Form_AgregarProducto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Capa Presentacion\Administrador\Form_Editar_Cliente.resx">
+      <DependentUpon>Form_Editar_Cliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Capa Presentacion\Administrador\Reporte_ventas.resx">
       <DependentUpon>Reporte_ventas.cs</DependentUpon>

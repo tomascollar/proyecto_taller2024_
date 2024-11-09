@@ -137,7 +137,7 @@
             this.txtTelefono.Location = new System.Drawing.Point(496, 84);
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.Size = new System.Drawing.Size(171, 24);
-            this.txtTelefono.TabIndex = 7;
+            this.txtTelefono.TabIndex = 4;
             this.txtTelefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTelefono_KeyPress);
             // 
             // txtDireccion
@@ -146,7 +146,7 @@
             this.txtDireccion.Location = new System.Drawing.Point(496, 168);
             this.txtDireccion.Name = "txtDireccion";
             this.txtDireccion.Size = new System.Drawing.Size(171, 24);
-            this.txtDireccion.TabIndex = 8;
+            this.txtDireccion.TabIndex = 5;
             // 
             // txtDni
             // 
@@ -154,7 +154,7 @@
             this.txtDni.Location = new System.Drawing.Point(150, 82);
             this.txtDni.Name = "txtDni";
             this.txtDni.Size = new System.Drawing.Size(171, 24);
-            this.txtDni.TabIndex = 9;
+            this.txtDni.TabIndex = 1;
             this.txtDni.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDni_KeyPress);
             // 
             // txtApellido
@@ -163,7 +163,7 @@
             this.txtApellido.Location = new System.Drawing.Point(150, 258);
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(171, 24);
-            this.txtApellido.TabIndex = 10;
+            this.txtApellido.TabIndex = 3;
             this.txtApellido.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtApellido_KeyPress);
             // 
             // txtNombre
@@ -172,7 +172,7 @@
             this.txtNombre.Location = new System.Drawing.Point(150, 166);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(171, 24);
-            this.txtNombre.TabIndex = 11;
+            this.txtNombre.TabIndex = 2;
             this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
             // 
             // txtEmail
@@ -181,7 +181,7 @@
             this.txtEmail.Location = new System.Drawing.Point(496, 260);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(171, 24);
-            this.txtEmail.TabIndex = 12;
+            this.txtEmail.TabIndex = 6;
             // 
             // btnEditarCliente
             // 
@@ -225,7 +225,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCancelar);
             this.Name = "Editar_Cliente";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Editar_Cliente";
+            this.Load += new System.EventHandler(this.Editar_Cliente_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

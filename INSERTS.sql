@@ -29,4 +29,14 @@ EXEC usp_RegistrarVentaConFecha
 -- Verifica los resultados
 SELECT @Resultado AS Resultado, @Mensaje AS Mensaje;
 
-select * from factura
+INSERT INTO marca (descripcion_marca)
+VALUES ('Rosamonte');
+
+INSERT INTO marca (descripcion_marca)
+VALUES ('Coca Cola');
+
+INSERT INTO marca (descripcion_marca)
+VALUES ('Pepsi');
+
+
+

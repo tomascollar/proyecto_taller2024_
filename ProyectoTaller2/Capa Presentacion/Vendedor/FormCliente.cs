@@ -89,6 +89,10 @@ namespace ProyectoTaller2
 
             if (dataGridView1.Rows.Count > 0)
             {
+                // Desactiva temporalmente el modo de administración de divisa
+                CurrencyManager currencyManager = (CurrencyManager)BindingContext[dataGridView1.DataSource];
+                currencyManager.SuspendBinding();
+
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
                     if (row.Cells[columnaFiltro].Value.ToString().Trim().ToUpper().Contains(txtCliente.Text.Trim().ToUpper()))
@@ -96,6 +100,9 @@ namespace ProyectoTaller2
                     else
                         row.Visible = false;
                 }
+
+                // Reactiva el modo de administración de divisa
+                currencyManager.ResumeBinding();
             }
 
         }

@@ -24,8 +24,18 @@ namespace ProyectoTaller2.Capa_Presentacion.Vendedor
 
         private void Form_ListaClientes_Load(object sender, EventArgs e)
         {
-            comboListarCliente.SelectedIndex = 0;
+
             //CargarClientes();
+
+            foreach (DataGridViewColumn columna in dataGridView1.Columns)
+            {
+                comboListarCliente.Items.Add(new OpcionCombo() { Valor = columna.Name, Texto = columna.HeaderText });
+            }
+
+            comboListarCliente.DisplayMember = "Texto";
+            comboListarCliente.ValueMember = "Valor";
+            comboListarCliente.SelectedIndex = 0;
+
 
             List<clientes> lista = new NegocioCliente().ListarClientes();
 
@@ -62,25 +72,6 @@ namespace ProyectoTaller2.Capa_Presentacion.Vendedor
 
         private void txtBuscarCliente_KeyPress(object sender, KeyPressEventArgs e)
         {
-            string selectedItem = comboListarCliente.SelectedItem.ToString();
-
-            if(selectedItem == "DNI")
-            {
-                bool valida = Validar.soloNumeros(e);
-                if (!valida)
-                    errorP.SetError(txtBuscarCliente, "Solo numeros");
-                else
-                    errorP.Clear();
-            }
-            else
-            {
-                bool valida = Validar.soloLetras(e);
-                if (!valida)
-                    errorP.SetError(txtBuscarCliente, "Solo letras");
-                else
-                    errorP.Clear();
-            }
-
 
         }
 
@@ -128,7 +119,7 @@ namespace ProyectoTaller2.Capa_Presentacion.Vendedor
         private void btnLimpiarFiltro_Click(object sender, EventArgs e)
         {
             txtBuscarCliente.Text = "";
-            foreach (DataGridView row in dataGridView1.Rows)
+            foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 row.Visible = true;
             }

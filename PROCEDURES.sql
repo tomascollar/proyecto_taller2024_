@@ -200,3 +200,13 @@ BEGIN
     WHERE id_usuario = @id_usuario;
 END;
 
+-----procedimiento almacenado para hacer baja logica de cliente
+
+CREATE PROCEDURE sp_BajaLogicaCliente
+    @id_cliente INT
+AS
+BEGIN
+    UPDATE clientes
+    SET estado_cliente = 'Inactivo'
+    WHERE id_cliente = @id_cliente;
+END;

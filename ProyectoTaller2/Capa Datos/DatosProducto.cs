@@ -8,13 +8,31 @@ namespace ProyectoTaller2.Capa_Datos
 {
     internal class DatosProducto
     {
-        public void InsertarProducto(productos nuevoProducto)
+        public bool InsertarProducto(productos nuevoProducto)
         {
-            using(var context = new proyecto_taller2Entities())
+            /*using(var context = new proyecto_taller2Entities())
             {
                 context.productos.Add(nuevoProducto);
                 context.SaveChanges();
+            }*/
+
+            using (var context = new proyecto_taller2Entities())
+            {
+                // Verificar si el código ya existe
+                var productoExistente = context.productos
+                    .SingleOrDefault(p => p.codigo_producto == nuevoProducto.codigo_producto);
+
+                if (productoExistente != null)
+                {
+                    return false; // Código ya existe
+                }
+
+                // Si no existe, agregar el nuevo producto
+                context.productos.Add(nuevoProducto);
+                context.SaveChanges();
+                return true; // Inserción exitosa
             }
+
         }
 
         public List<productos> ObtenerProductos()

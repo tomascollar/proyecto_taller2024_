@@ -152,34 +152,7 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
 
         private void dataGridUsuarios_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            /*if (e.ColumnIndex == 6 && e.RowIndex >= 0) // Reemplaza con el índice de la columna deseada.
-            {
-                // Verifica el valor de la celda en la columna deseada.
-                if (e.Value != null)
-                {
-                    int valor = Convert.ToInt32(e.Value);
-
-                    // Asigna el texto correspondiente en función del valor.
-                    switch (valor)
-                    {
-                        case 1:
-                            e.Value = "superadmin";
-                            break;
-                        case 2:
-                            e.Value = "admin";
-                            break;
-                        case 3:
-                            e.Value = "vendedor";
-                            break;
-                        default:
-                            // Deja el valor original si no coincide con ninguno de los casos.
-                            break;
-                    }
-
-                    // Indica que se ha formateado la celda.
-                    e.FormattingApplied = true;
-                }
-            }*/
+            
 
             // Verifica si la columna actual es la de "estado_usuario"
             if (dataGridView1.Columns[e.ColumnIndex].Name == "Estado")
@@ -208,31 +181,7 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
 
         private void btnEditaUsuario_Click(object sender, EventArgs e)
         {
-            /* ESTO FUNCIONA
-             * if(dataGridUsuarios.SelectedRows.Count > 0)
-            {
-                //Obtengo la fila seleccionada
-                DataGridViewRow filaSeleccionada = dataGridUsuarios.SelectedRows[0];
-
-                //Obtengo los valores de las celdas
-                string id = filaSeleccionada.Cells[0].Value.ToString();
-                string nombre = filaSeleccionada.Cells[1].Value.ToString();
-                string apellido = filaSeleccionada.Cells[2].Value.ToString();
-                string telefono = filaSeleccionada.Cells[3].Value.ToString();
-                string usuario = filaSeleccionada.Cells[4].Value.ToString();
-                string contraseña = filaSeleccionada.Cells[5].Value.ToString();
-                string user_type = filaSeleccionada.Cells[6].Value.ToString();
-
-                //Creo una instancia del formulario de edicion
-                Editar_Usuario editarform = new Editar_Usuario(_form);
-
-                //Paso los datos al formulario
-                editarform.CargarDatos(id, nombre, apellido, telefono, usuario, contraseña, user_type);
-
-                //Muestro el formulario
-                editarform.ShowDialog();
-            }
-            */
+            
 
             //Lo de arriba funciona BIEN, ahora voy a probar para el datagrid NUEVO
 

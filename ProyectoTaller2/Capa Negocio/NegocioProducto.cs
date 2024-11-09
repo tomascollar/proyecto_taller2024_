@@ -27,8 +27,10 @@ namespace ProyectoTaller2.Capa_Negocio
 
             };
 
-            datos.InsertarProducto(obj);
-            return true;
+            /*datos.InsertarProducto(obj);
+            return true;*/
+
+            return datos.InsertarProducto(obj);
         }
 
         public List<productos> ListarProductos()

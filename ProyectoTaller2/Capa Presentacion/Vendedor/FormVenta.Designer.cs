@@ -36,6 +36,7 @@
             this.groupBoxVenta = new System.Windows.Forms.GroupBox();
             this.cboTipoDocumento = new System.Windows.Forms.ComboBox();
             this.txtFecha = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBoxCliente = new System.Windows.Forms.GroupBox();
             this.txtIdCliente = new System.Windows.Forms.TextBox();
@@ -68,7 +69,6 @@
             this.Cantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SubTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnEliminar = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.label10 = new System.Windows.Forms.Label();
             this.groupBoxVenta.SuspendLayout();
             this.groupBoxCliente.SuspendLayout();
             this.groupBoxProductos.SuspendLayout();
@@ -127,6 +127,16 @@
             this.txtFecha.Size = new System.Drawing.Size(110, 25);
             this.txtFecha.TabIndex = 1;
             this.txtFecha.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(151, 19);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(89, 19);
+            this.label10.TabIndex = 0;
+            this.label10.Text = "Tipo Registro";
             // 
             // label1
             // 
@@ -467,9 +477,10 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridVenta.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.LightBlue;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
             this.dataGridVenta.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            this.dataGridVenta.RowTemplate.Height = 28;
             this.dataGridVenta.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridVenta.Size = new System.Drawing.Size(673, 258);
             this.dataGridVenta.TabIndex = 13;
@@ -512,16 +523,6 @@
             this.btnEliminar.HeaderText = "";
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.ReadOnly = true;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(151, 19);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(89, 19);
-            this.label10.TabIndex = 0;
-            this.label10.Text = "Tipo Registro";
             // 
             // FormVenta
             // 

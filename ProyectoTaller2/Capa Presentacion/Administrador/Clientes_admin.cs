@@ -1,10 +1,13 @@
 ﻿using Org.BouncyCastle.Asn1.X509;
+using ProyectoTaller2.Capa_Datos;
 using ProyectoTaller2.Capa_Negocio;
+using ProyectoTaller2.Capa_Presentacion.Administrador;
 using ProyectoTaller2.Capa_Presentacion.Vendedor;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -21,11 +24,12 @@ namespace ProyectoTaller2.CapaPresentacion.Administrador
         //defino el _form que va a guardar el form recibido como parametro
         //para poder utilizar la interfaz
         private Iform _form;
-        public Clientes_admin()
+
+       /* public Clientes_admin()
         {
             InitializeComponent();
 
-        }
+        }*/
 
         public Clientes_admin(Iform form)
         {
@@ -59,19 +63,31 @@ namespace ProyectoTaller2.CapaPresentacion.Administrador
             comboBox1.DisplayMember = "Texto";
             comboBox1.ValueMember = "Valor";
             comboBox1.SelectedIndex = 0;
-
-
         }
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
+                string estadoCliente = dataGridView1.SelectedRows[0].Cells[7].Value.ToString(); // Columna 7 es el índice 6
+                if (estadoCliente.Equals("Inactivo", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Muestra el botón de reactivación si el estado es "Inactivo"
+                    btnReactivar.Visible = true;
+                }
+                else
+                {
+                    // Oculta el botón si el estado no es "Inactivo"
+                    btnReactivar.Visible = false;
+                }
+
                 btnEditar.Enabled = true;
                 btnEliminar.Enabled = true;
             }
             else
             {
+                // Si no hay fila seleccionada, ocultamos el botón
+                btnReactivar.Visible = false;
                 btnEditar.Enabled = false;
                 btnEliminar.Enabled = false;
             }
@@ -85,6 +101,10 @@ namespace ProyectoTaller2.CapaPresentacion.Administrador
 
             if (dataGridView1.Rows.Count > 0)
             {
+                // Desactiva temporalmente el modo de administración de divisa
+                CurrencyManager currencyManager = (CurrencyManager)BindingContext[dataGridView1.DataSource];
+                currencyManager.SuspendBinding();
+
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
                     if (row.Cells[columnaFiltro].Value.ToString().Trim().ToUpper().Contains(txtBuscarDni.Text.Trim().ToUpper()))
@@ -92,6 +112,9 @@ namespace ProyectoTaller2.CapaPresentacion.Administrador
                     else
                         row.Visible = false;
                 }
+
+                // Reactiva el modo de administración de divisa
+                currencyManager.ResumeBinding();
             }
         }
 
@@ -120,18 +143,57 @@ namespace ProyectoTaller2.CapaPresentacion.Administrador
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            int posicion = dataGridView1.CurrentRow.Index;
-
-            var msg = MessageBox.Show("Seguro desea eliminar este usuario?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (msg == DialogResult.Yes)
+            // Verifica si se ha seleccionado una fila en el DataGridView
+            if (dataGridView1.SelectedRows.Count > 0)
             {
+                // Obtén el id_cliente de la fila seleccionada
+                int idCliente = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value); // Suponiendo que el id_cliente está en la primera columna (índice 0)
 
-                //dataGridUsuarios.Rows.RemoveAt(posicion);
-                dataGridView1[7, posicion].Value = "Inactivo";
-                dataGridView1.Rows[posicion].DefaultCellStyle.BackColor = Color.Red;
-
+                // Llama al procedimiento almacenado para hacer la baja lógica
+                EjecutarBajaLogicaCliente(idCliente);
+            }
+            else
+            {
+                MessageBox.Show("Por favor, selecciona un cliente.");
             }
         }
+
+
+        private void EjecutarBajaLogicaCliente(int idCliente)
+        {
+            try
+            {
+                // Define la cadena de conexión a la base de datos
+                string connectionString = "Data Source=localhost\\SQLEXPRESS;Initial Catalog=proyecto_taller2;Integrated Security=True";
+
+                // Establece la conexión con la base de datos
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Crea el comando para ejecutar el procedimiento almacenado
+                    using (SqlCommand command = new SqlCommand("sp_BajaLogicaCliente", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Añade el parámetro @id_cliente al comando
+                        command.Parameters.AddWithValue("@id_cliente", idCliente);
+
+                        // Ejecuta el procedimiento almacenado
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+                // Muestra un mensaje de éxito y actualiza el DataGridView
+                MessageBox.Show("Cliente dado de baja exitosamente.");
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al dar de baja el cliente: {ex.Message}");
+            }
+        }
+
 
         private void btnLimpiarFiltro_Click(object sender, EventArgs e)
         {
@@ -144,27 +206,80 @@ namespace ProyectoTaller2.CapaPresentacion.Administrador
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
+            // Verificar si hay una fila seleccionada
+             if (dataGridView1.SelectedRows.Count > 0)
+            {
+                // Obtener los datos de la fila seleccionada
+                var idCliente = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value); // Asumiendo que el ID está en la primera columna
+                var nombre = dataGridView1.SelectedRows[0].Cells[1].Value.ToString();
+                var apellido = dataGridView1.SelectedRows[0].Cells[2].Value.ToString();
+                var dni = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[3].Value);
+                var telefono = dataGridView1.SelectedRows[0].Cells[4].Value.ToString();
+                var direccion = dataGridView1.SelectedRows[0].Cells[5].Value.ToString();
+                var email = dataGridView1.SelectedRows[0].Cells[6].Value.ToString();
+
+                // Abrir el formulario de edición y pasar los datos al formulario de edición
+                Form_Editar_Cliente formEditar = new Form_Editar_Cliente(idCliente, nombre, apellido, dni, telefono, direccion, email);
+                formEditar.ShowDialog(); // Abrir el formulario de edición
+            }
+            else
+            {
+                MessageBox.Show("Seleccione un cliente para editar", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnReactivar_Click(object sender, EventArgs e)
+        {
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                //Obtengo la fila seleccionada
-                DataGridViewRow filaSeleccionada = dataGridView1.SelectedRows[0];
+                // Obtener el ID del usuario seleccionado
+                int idClienteSeleccionado = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
 
-                //Obtengo los valores de las celdas
-                // string id = filaSeleccionada.Cells[1].Value.ToString();
-                string nombre = filaSeleccionada.Cells[1].Value.ToString();
-                string apellido = filaSeleccionada.Cells[2].Value.ToString();
-                string DNI = filaSeleccionada.Cells[3].Value.ToString();
-                string telefono = filaSeleccionada.Cells[4].Value.ToString();
-                string direccion = filaSeleccionada.Cells[5].Value.ToString();
-                string email = filaSeleccionada.Cells[6].Value.ToString();
-                // string estado = filaSeleccionada.Cells[7].Value.ToString();
+                // Llamar al método que reactivará el usuario en la base de datos
+                ReactivarCliente(idClienteSeleccionado);
 
-                // Creo una instacion del formulario de edicion
-              //  Editar_Cliente editar_ = new Editar_Cliente(_form);
+                // Refrescar el DataGridView para mostrar el cambio
+                //  CargarUsuarios(); // Este método debería volver a cargar los usuarios en el DataGridView
 
-                //paso los datos al formulario
-              //  editar_.CargarDatos(DNI, nombre, apellido, telefono, direccion, email);
-              //  editar_.ShowDialog();
+                MessageBox.Show("Cliente reactivado con éxito.");
+            }
+        }
+
+        private void ReactivarCliente(int idCliente)
+        {
+            // Código para actualizar el estado del usuario en la base de datos
+            string query = "UPDATE clientes SET estado_cliente = 'Activo' WHERE id_cliente = @id_cliente";
+
+            using (SqlConnection connection = new SqlConnection(Conexion.cadena))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id_cliente", idCliente);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Verifica si la columna actual es la de índice 7
+            if (e.ColumnIndex == 7)
+            {
+                // Obtiene el valor de la celda en la columna de índice 7
+                string estado = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString();
+
+                // Si el estado es "Inactivo", cambia el color de la fila a rojo
+                if (estado == "Inactivo")
+                {
+                    dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                    dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White; // Para que el texto sea legible
+                }
+                else
+                {
+                    // Restaura el color si es otro estado (opcional)
+                    dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
+                    dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
+                }
             }
         }
     }

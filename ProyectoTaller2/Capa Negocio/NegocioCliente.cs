@@ -36,5 +36,29 @@ namespace ProyectoTaller2.Capa_Negocio
             return lst;
         }
 
+        public bool EditarCliente(int idCliente, string nombre, string apellido, int dni, string telefono, string direccion, string email)
+        {
+            using (var context = new proyecto_taller2Entities())
+            {
+                var cliente = context.clientes.SingleOrDefault(c => c.id_cliente == idCliente);
+
+                if (cliente != null)
+                {
+                    // Actualizar los campos del cliente
+                    cliente.nombre_cliente = nombre;
+                    cliente.apellido_cliente = apellido;
+                    cliente.DNI_cliente = dni;
+                    cliente.telefono_cliente = telefono;
+                    cliente.direccion_cliente = direccion;
+                    cliente.email_cliente = email;
+
+                    // Guardar los cambios
+                    context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+        }
+
     }
 }

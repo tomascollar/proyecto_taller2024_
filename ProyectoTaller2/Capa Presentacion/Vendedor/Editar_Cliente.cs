@@ -16,10 +16,18 @@ namespace ProyectoTaller2.Capa_Presentacion.Vendedor
 
         DialogResult ask;
         private Iform _form;
+        private int IdCliente;
+
         public Editar_Cliente(Iform form)
         {
             InitializeComponent();
             _form = form;
+        }
+
+        public Editar_Cliente(int id_cliente)
+        {
+            InitializeComponent();
+            IdCliente = id_cliente;
         }
 
         private void txtDni_KeyPress(object sender, KeyPressEventArgs e)
@@ -192,6 +200,11 @@ namespace ProyectoTaller2.Capa_Presentacion.Vendedor
             txtTelefono.Text = telefono;
             txtDireccion.Text = direccion;
             txtEmail.Text = email;
+        }
+
+        private void Editar_Cliente_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
