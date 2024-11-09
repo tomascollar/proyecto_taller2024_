@@ -29,8 +29,10 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
 
             try
             {
+                // Obtengo la fecha y hora actual para usar en el nombre del archivo
+                string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
                 // Define la ruta del archivo de backup
-                string backupPath = @"D:\BACKUPS_DB\db_proyecto.bak"; // Cambia la ruta según tus necesidades
+                string backupPath = $@"C:\backup_DB\db_proyecto_{timestamp}.bak"; // Cambia la ruta según tus necesidades
 
                 // Establece la cadena de conexión a la base de datos
                 string connectionString = "Data Source=localhost\\SQLEXPRESS;Initial Catalog=proyecto_taller2;Integrated Security=True";
@@ -47,7 +49,7 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
                     SqlCommand command = new SqlCommand(query, connection);
                     command.ExecuteNonQuery();
 
-                    MessageBox.Show("Backup generado exitosamente.");
+                    MessageBox.Show($"Backup generado exitosamente en la ruta:\n{backupPath}");
                 }
             }
             catch (Exception ex)

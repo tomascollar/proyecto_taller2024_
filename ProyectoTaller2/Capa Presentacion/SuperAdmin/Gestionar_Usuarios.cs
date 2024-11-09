@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using ProyectoTaller2.Capa_Datos;
 using ProyectoTaller2.Capa_Entidades;
 using ProyectoTaller2.Capa_Presentacion.Administrador;
 using ProyectoTaller2.CapaPresentacion.SuperAdmin;
@@ -33,19 +35,8 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
 
         private void dataGridUsuarios_SelectionChanged(object sender, EventArgs e)
         {
-            // Verifica si al menos una fila está seleccionada
-            if (dataGridView1.SelectedRows.Count > 0)
-            {
-                // Habilita los botones si hay al menos una fila seleccionada
-                btnEditaUsuario.Enabled = true;
-                btnEliminar.Enabled = true;
-            }
-            else
-            {
-                // Deshabilita los botones si no hay ninguna fila seleccionada
-                btnEditaUsuario.Enabled = false;
-                btnEliminar.Enabled = false;
-            }
+
+            
         }
 
         private void btnAgregarUsuario_Click(object sender, EventArgs e)
@@ -55,26 +46,30 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
 
         private void CargarUsuarios()
         {
-            var negocioUsuario = new NegocioUsuario();
+            //Mostrar los usuarios
+            List<Usuario> listaUsuario = new NegocioUsuario().Listar();
 
-            var datos = negocioUsuario.ListarUsuario();
+            dataGridView1.AutoGenerateColumns = false;
 
-            dataGridUsuarios.DataSource = datos;
-            this.formato();
+            foreach (Usuario item in listaUsuario)
+            {
+                dataGridView1.Rows.Add(new object[] {item.id_usuario, item.nombre_usuario, item.apellido_usuario,
+             item.telefono_usuario,item.usuario,item.contraseña,
+              item.oTipo_Usuario.id_tipo_usario,item.oTipo_Usuario.descripcion_tipo_usuario,
+              item.estado_usuario
+            });
 
-            //dataGridUsuarios.RowPrePaint += dataGridUsuarios_RowPrePaint;
-
-
-
+            }
 
         }
 
         private void Gestionar_Usuarios_Load(object sender, EventArgs e)
         {
             //creo instancia del contexto de datos
-           // CargarUsuarios();
-
-           // dataGridUsuarios.ClearSelection();
+            // CargarUsuarios();
+            
+            // dataGridUsuarios.ClearSelection();
+            dataGridUsuarios.Visible = false;
 
 
             foreach (DataGridViewColumn columna in dataGridView1.Columns)
@@ -90,7 +85,7 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
             
             if(comboBox1.Items.Count > 0)
             {
-                comboBox1.Items.RemoveAt(comboBox1.Items.Count - 1);
+               // comboBox1.Items.RemoveAt(comboBox1.Items.Count - 1);
             }
 
             //Mostrar los usuarios
@@ -105,36 +100,47 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
               item.oTipo_Usuario.id_tipo_usario,item.oTipo_Usuario.descripcion_tipo_usuario,
               item.estado_usuario
             });
-
             }
-        }
 
-        private void formato()
-        {
-            //dataGridUsuarios.Columns[0].Visible = false;
-            dataGridUsuarios.Columns[0].HeaderText = "ID";
-            dataGridUsuarios.Columns[1].HeaderText = "Nombre";
-            dataGridUsuarios.Columns[2].HeaderText = "Apellido";
-            dataGridUsuarios.Columns[3].HeaderText = "Telefono";
-            dataGridUsuarios.Columns[4].HeaderText = "Usuario";
-            dataGridUsuarios.Columns[5].HeaderText = "Contraseña";
-            dataGridUsuarios.Columns[6].HeaderText = "Tipo de Usuario";
-            dataGridUsuarios.Columns[7].HeaderText = "Estado";
-
+            dataGridView1.ClearSelection();
         }
+        
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            int posicion = dataGridView1.CurrentRow.Index;
-
-            var msg = MessageBox.Show("Seguro desea eliminar este usuario?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (msg == DialogResult.Yes)
+            if (dataGridView1.SelectedRows.Count > 0)
             {
+                // Obtén el ID del usuario seleccionado
+                int idUsuarioSeleccionado = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["IdUsuario"].Value);
 
-                //dataGridUsuarios.Rows.RemoveAt(posicion);
-                dataGridView1[8, posicion].Value = "Inactivo";
-                dataGridView1.Rows[posicion].DefaultCellStyle.BackColor = Color.Red;
+                // Confirmar la baja lógica
+                var confirmResult = MessageBox.Show("¿Estás seguro de dar de baja este usuario?",
+                                                    "Confirmar baja lógica",
+                                                    MessageBoxButtons.YesNo);
+                if (confirmResult == DialogResult.Yes)
+                {
+                    // Conexión a la base de datos y ejecución del procedimiento
+                    using (SqlConnection connection = new SqlConnection(Conexion.cadena))
+                    {
+                        connection.Open();
+                        using (SqlCommand command = new SqlCommand("sp_BajaLogicaUsuario", connection))
+                        {
+                            command.CommandType = CommandType.StoredProcedure;
+                            command.Parameters.AddWithValue("@id_usuario", idUsuarioSeleccionado);
+                            command.ExecuteNonQuery();
+                        }
+                    }
 
+                    // Actualiza el DataGridView después de la baja lógica
+                    MessageBox.Show("El usuario ha sido dado de baja.");
+
+                    dataGridView1.Refresh();
+                  
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, selecciona un usuario para darlo de baja.");
             }
         }
         
@@ -146,7 +152,7 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
 
         private void dataGridUsuarios_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.ColumnIndex == 6 && e.RowIndex >= 0) // Reemplaza con el índice de la columna deseada.
+            /*if (e.ColumnIndex == 6 && e.RowIndex >= 0) // Reemplaza con el índice de la columna deseada.
             {
                 // Verifica el valor de la celda en la columna deseada.
                 if (e.Value != null)
@@ -173,9 +179,29 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
                     // Indica que se ha formateado la celda.
                     e.FormattingApplied = true;
                 }
+            }*/
+
+            // Verifica si la columna actual es la de "estado_usuario"
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "Estado")
+            {
+                // Obtiene el valor de la celda
+                string estado = dataGridView1.Rows[e.RowIndex].Cells["Estado"].Value?.ToString();
+
+                // Si el estado es "Inactivo", cambia el color de la fila a rojo
+                if (estado == "Inactivo")
+                {
+                    dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                    dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White; // Para que el texto sea legible
+                }
+                else
+                {
+                    // Restaura el color si es otro estado (opcional)
+                    dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
+                    dataGridView1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
+                }
             }
         }
-
+        
 
         ErrorProvider errorP =  new ErrorProvider();
 
@@ -247,7 +273,7 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
         private void btnLimpiarFiltro_Click(object sender, EventArgs e)
         {
             txtBusqueda.Text = "";
-            foreach (DataGridViewRow row in dataGridUsuarios.Rows)
+            foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 row.Visible = true;
             }
@@ -271,5 +297,54 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
             }
         }
 
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            // Verificar si hay una fila seleccionada
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                // Obtener el estado del usuario seleccionado
+                string estadoUsuario = dataGridView1.SelectedRows[0].Cells["Estado"].Value.ToString();
+
+                // Mostrar el botón solo si el usuario está 'Inactivo'
+                btnReactivar.Visible = estadoUsuario == "Inactivo";
+            }
+            else
+            {
+                // Ocultar el botón si no hay ninguna fila seleccionada
+                btnReactivar.Visible = false;
+            }
+        }
+
+        private void btnReactivar_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                // Obtener el ID del usuario seleccionado
+                int idUsuarioSeleccionado = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["IdUsuario"].Value);
+
+                // Llamar al método que reactivará el usuario en la base de datos
+                ReactivarUsuario(idUsuarioSeleccionado);
+
+                // Refrescar el DataGridView para mostrar el cambio
+              //  CargarUsuarios(); // Este método debería volver a cargar los usuarios en el DataGridView
+                
+                MessageBox.Show("Usuario reactivado con éxito.");
+            }
+        }
+
+        private void ReactivarUsuario(int idUsuario)
+        {
+            // Código para actualizar el estado del usuario en la base de datos
+            string query = "UPDATE usuario SET estado_usuario = 'Activo' WHERE id_usuario = @id_usuario";
+
+            using (SqlConnection connection = new SqlConnection(Conexion.cadena))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@id_usuario", idUsuario);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }

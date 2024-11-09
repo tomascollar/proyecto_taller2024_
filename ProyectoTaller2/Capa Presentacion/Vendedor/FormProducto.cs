@@ -135,6 +135,7 @@ namespace ProyectoTaller2
 
             string columnaFiltro = ((OpcionCombo)comboBox1.SelectedItem).Valor.ToString();
 
+            /*
             if (dataGridView1.Rows.Count > 0)
             {
                 foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -144,6 +145,24 @@ namespace ProyectoTaller2
                     else
                         row.Visible = false;
                 }
+            }*/
+
+            if (dataGridView1.Rows.Count > 0)
+            {
+                // Desactiva temporalmente el modo de administración de divisa
+                CurrencyManager currencyManager = (CurrencyManager)BindingContext[dataGridView1.DataSource];
+                currencyManager.SuspendBinding();
+
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    if (row.Cells[columnaFiltro].Value.ToString().Trim().ToUpper().Contains(txtBuscar.Text.Trim().ToUpper()))
+                        row.Visible = true;
+                    else
+                        row.Visible = false;
+                }
+
+                // Reactiva el modo de administración de divisa
+                currencyManager.ResumeBinding();
             }
         }
 
@@ -159,6 +178,8 @@ namespace ProyectoTaller2
             comboBox1.DisplayMember = "Texto";
             comboBox1.ValueMember = "Valor";
             comboBox1.SelectedIndex = 0;
+
+            dataGridView1.ClearSelection();
 
         }
 

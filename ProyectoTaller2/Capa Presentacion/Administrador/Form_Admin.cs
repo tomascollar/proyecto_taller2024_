@@ -266,7 +266,7 @@ namespace ProyectoTaller2.CapaPresentacion.Administrador
         private void btnClientes_Click(object sender, EventArgs e)
         {
             ActivateButton(sender, RGBColors.color3);
-            openChildForm(new Clientes_admin());
+            openChildForm(new Clientes_admin(this));
         }
 
         private void btnReportes_Click(object sender, EventArgs e)

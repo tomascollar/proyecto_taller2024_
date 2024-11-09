@@ -1,4 +1,6 @@
-﻿using ProyectoTaller2.Capa_Negocio;
+﻿using Org.BouncyCastle.Asn1.X509;
+using ProyectoTaller2.Capa_Negocio;
+using ProyectoTaller2.Capa_Presentacion.Vendedor;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,10 +17,20 @@ namespace ProyectoTaller2.CapaPresentacion.Administrador
     
     public partial class Clientes_admin : Form
     {
+
+        //defino el _form que va a guardar el form recibido como parametro
+        //para poder utilizar la interfaz
+        private Iform _form;
         public Clientes_admin()
         {
             InitializeComponent();
 
+        }
+
+        public Clientes_admin(Iform form)
+        {
+            InitializeComponent();
+            _form = form;
         }
 
         private void CargarClientes()
@@ -127,6 +139,32 @@ namespace ProyectoTaller2.CapaPresentacion.Administrador
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 row.Visible = true;
+            }
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                //Obtengo la fila seleccionada
+                DataGridViewRow filaSeleccionada = dataGridView1.SelectedRows[0];
+
+                //Obtengo los valores de las celdas
+                // string id = filaSeleccionada.Cells[1].Value.ToString();
+                string nombre = filaSeleccionada.Cells[1].Value.ToString();
+                string apellido = filaSeleccionada.Cells[2].Value.ToString();
+                string DNI = filaSeleccionada.Cells[3].Value.ToString();
+                string telefono = filaSeleccionada.Cells[4].Value.ToString();
+                string direccion = filaSeleccionada.Cells[5].Value.ToString();
+                string email = filaSeleccionada.Cells[6].Value.ToString();
+                // string estado = filaSeleccionada.Cells[7].Value.ToString();
+
+                // Creo una instacion del formulario de edicion
+              //  Editar_Cliente editar_ = new Editar_Cliente(_form);
+
+                //paso los datos al formulario
+              //  editar_.CargarDatos(DNI, nombre, apellido, telefono, direccion, email);
+              //  editar_.ShowDialog();
             }
         }
     }

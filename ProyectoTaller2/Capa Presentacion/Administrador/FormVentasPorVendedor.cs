@@ -30,8 +30,8 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
 
         private void CargarVentasVendedor()
         {
-            // Aquí llamas al procedimiento almacenado `sp_ReporteVentasPorVendedor`
-            // y pasas el `idUsuarioVendedor` como parámetro
+            // Aquí llam0 al procedimiento almacenado `sp_ReporteVentasPorVendedor`
+            // y paso el `idUsuarioVendedor` como parámetro
 
             using (SqlConnection connection = new SqlConnection(Conexion.cadena))
             {

@@ -189,3 +189,14 @@ BEGIN
     END CATCH
 END
 
+-----procedimiento almacenado para hacer baja logica de usuario
+
+CREATE PROCEDURE sp_BajaLogicaUsuario
+    @id_usuario INT
+AS
+BEGIN
+    UPDATE usuario
+    SET estado_usuario = 'Inactivo'
+    WHERE id_usuario = @id_usuario;
+END;
+
