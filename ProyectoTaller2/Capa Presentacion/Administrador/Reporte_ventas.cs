@@ -24,6 +24,8 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
         {
             CargarGraficoVentasMensuales(); // grafico ventas mensuales
             CargarGrafico(); //Grafico producto mas vendido
+            CargarClientesMasVentasEnBarras();  // Carga el gráfico de barras de los clientes con más ventas
+            CargarCategoriasMasVendidasEnBarras();  // Carga el gráfico de líneas de las categorías de productos más vendidas
         }
 
 
@@ -117,6 +119,92 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
                     MessageBox.Show("Error al cargar el gráfico: " + ex.Message);
                 }
             }
+        }
+
+        private void CargarClientesMasVentasEnBarras()
+        {
+            string connectionString = Conexion.cadena;
+            string query = "EXEC sp_ClientesMasVentas"; // Llamamos al procedimiento almacenado
+
+            // Conectar a la base de datos y ejecutar la consulta
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                // Limpiar los datos previos del gráfico
+                chartBarras.Series.Clear();
+                chartBarras.ChartAreas[0].AxisX.Title = "Clientes";
+                chartBarras.ChartAreas[0].AxisY.Title = "Total Gastado";
+
+                // Crear la serie para el gráfico de barras
+                var series = new Series("Clientes")
+                {
+                    ChartType = SeriesChartType.Bar, // Tipo de gráfico de barras
+                    IsValueShownAsLabel = true // Para mostrar los valores sobre las barras
+                };
+
+                // Leer los resultados y agregar al gráfico
+                while (reader.Read())
+                {
+                    string nombreCliente = reader["NombreCliente"].ToString();
+                    decimal totalGastado = Convert.ToDecimal(reader["TotalGastado"]);
+
+                    // Agregar los puntos al gráfico
+                    series.Points.AddXY(nombreCliente, totalGastado);
+                }
+
+                chartBarras.Series.Add(series);
+            }
+        }
+
+        private void CargarCategoriasMasVendidasEnBarras()
+        {
+            string connectionString = Conexion.cadena;
+            string query = "EXEC sp_CategoriasMasVendidas"; // Llamamos al procedimiento almacenado
+
+            // Conectar a la base de datos y ejecutar la consulta
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                // Limpiar los datos previos del gráfico
+                chartCategorias.Series.Clear();
+                chartCategorias.ChartAreas[0].AxisX.Title = "Categorías";
+                chartCategorias.ChartAreas[0].AxisY.Title = "Total Vendido";
+
+                // Crear la serie para el gráfico de barras
+                var series = new Series("Categorías")
+                {
+                    ChartType = SeriesChartType.Bar, // Cambiar a gráfico de barras
+                    IsValueShownAsLabel = true // Para mostrar los valores sobre las barras
+                };
+
+                // Leer los resultados y agregar al gráfico
+                while (reader.Read())
+                {
+                    string categoria = reader["Categoria"].ToString();
+                    int totalVendidos = Convert.ToInt32(reader["TotalVendidos"]);
+
+                    // Agregar los puntos al gráfico
+                    series.Points.AddXY(categoria, totalVendidos);
+                }
+
+                chartCategorias.Series.Add(series);
+            }
+        }
+
+
+
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

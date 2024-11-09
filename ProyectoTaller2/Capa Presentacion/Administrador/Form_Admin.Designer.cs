@@ -80,7 +80,7 @@
             this.btnClientes.IconColor = System.Drawing.Color.Gainsboro;
             this.btnClientes.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnClientes.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClientes.Location = new System.Drawing.Point(0, 275);
+            this.btnClientes.Location = new System.Drawing.Point(0, 280);
             this.btnClientes.Name = "btnClientes";
             this.btnClientes.Padding = new System.Windows.Forms.Padding(10, 0, 20, 0);
             this.btnClientes.Size = new System.Drawing.Size(220, 60);
@@ -105,7 +105,7 @@
             this.btnReportes.Location = new System.Drawing.Point(0, 215);
             this.btnReportes.Name = "btnReportes";
             this.btnReportes.Padding = new System.Windows.Forms.Padding(10, 0, 20, 0);
-            this.btnReportes.Size = new System.Drawing.Size(220, 60);
+            this.btnReportes.Size = new System.Drawing.Size(220, 65);
             this.btnReportes.TabIndex = 7;
             this.btnReportes.Text = "Reportes";
             this.btnReportes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
