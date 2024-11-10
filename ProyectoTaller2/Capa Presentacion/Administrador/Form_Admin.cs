@@ -179,12 +179,14 @@ namespace ProyectoTaller2.CapaPresentacion.Administrador
         private void btnProductos_Click(object sender, EventArgs e)
         {
             ActivateButton(sender, RGBColors.color2);
-            openChildForm(new FormProductosAdmin());
+
+            menuProductos.Show(btnProductos, new Point(0, btnProductos.Height));
+            // openChildForm(new FormProductosAdmin());
 
         }
 
 
-      
+
 
 
 
@@ -304,6 +306,12 @@ namespace ProyectoTaller2.CapaPresentacion.Administrador
             openChildForm(new Reporte_ventas());
             var reporteVentas = Application.OpenForms["Reporte_ventas"] as Reporte_ventas;
             reporteVentas?.MostrarGrafico("Ventas");
+        }
+
+        private void gestionarProductos_Click(object sender, EventArgs e)
+        {
+
+            openChildForm(new FormProductosAdmin());
         }
     }
 }

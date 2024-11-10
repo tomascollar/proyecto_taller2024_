@@ -52,12 +52,17 @@
             this.clienteMasCompras = new System.Windows.Forms.ToolStripMenuItem();
             this.prodMasVendido = new System.Windows.Forms.ToolStripMenuItem();
             this.ventasMensuales = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuProductos = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.gestionarProductos = new System.Windows.Forms.ToolStripMenuItem();
+            this.gestionarMarca = new System.Windows.Forms.ToolStripMenuItem();
+            this.gestionarCategoria = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnHome)).BeginInit();
             this.panelTitle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconCurrentChildForm)).BeginInit();
             this.menuReportes.SuspendLayout();
+            this.menuProductos.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMenu
@@ -364,6 +369,34 @@
             this.ventasMensuales.Text = "Ventas Mensuales";
             this.ventasMensuales.Click += new System.EventHandler(this.ventasMensuales_Click);
             // 
+            // menuProductos
+            // 
+            this.menuProductos.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gestionarProductos,
+            this.gestionarMarca,
+            this.gestionarCategoria});
+            this.menuProductos.Name = "menuProductos";
+            this.menuProductos.Size = new System.Drawing.Size(181, 92);
+            // 
+            // gestionarProductos
+            // 
+            this.gestionarProductos.Name = "gestionarProductos";
+            this.gestionarProductos.Size = new System.Drawing.Size(180, 22);
+            this.gestionarProductos.Text = "Productos";
+            this.gestionarProductos.Click += new System.EventHandler(this.gestionarProductos_Click);
+            // 
+            // gestionarMarca
+            // 
+            this.gestionarMarca.Name = "gestionarMarca";
+            this.gestionarMarca.Size = new System.Drawing.Size(130, 22);
+            this.gestionarMarca.Text = "Marcas";
+            // 
+            // gestionarCategoria
+            // 
+            this.gestionarCategoria.Name = "gestionarCategoria";
+            this.gestionarCategoria.Size = new System.Drawing.Size(130, 22);
+            this.gestionarCategoria.Text = "Categorias";
+            // 
             // Form_Admin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -386,6 +419,7 @@
             this.panelTitle.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconCurrentChildForm)).EndInit();
             this.menuReportes.ResumeLayout(false);
+            this.menuProductos.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -414,6 +448,10 @@
         private System.Windows.Forms.ToolStripMenuItem clienteMasCompras;
         private System.Windows.Forms.ToolStripMenuItem prodMasVendido;
         private System.Windows.Forms.ToolStripMenuItem ventasMensuales;
+        private System.Windows.Forms.ContextMenuStrip menuProductos;
+        private System.Windows.Forms.ToolStripMenuItem gestionarProductos;
+        private System.Windows.Forms.ToolStripMenuItem gestionarMarca;
+        private System.Windows.Forms.ToolStripMenuItem gestionarCategoria;
     }
 }
 
