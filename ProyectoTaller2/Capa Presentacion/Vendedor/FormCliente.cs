@@ -70,11 +70,7 @@ namespace ProyectoTaller2
 
         private void txtDniCliente_KeyPress(object sender, KeyPressEventArgs e)
         {
-            bool valida = Validar.soloNumeros(e);
-            if (!valida)
-                errorP.SetError(txtCliente, "Solo numeros");
-            else
-                errorP.Clear();
+
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)

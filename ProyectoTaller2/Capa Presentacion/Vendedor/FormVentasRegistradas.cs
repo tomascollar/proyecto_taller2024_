@@ -84,13 +84,7 @@ namespace ProyectoTaller2.Capa_Presentacion.Vendedor
                     rv.monto_total,
                     rv.NombreUsuario,
                     rv.dni_cliente,
-                    rv.nombre_cliente,
-                    rv.CodigoProducto,
-                    rv.NombreProducto,
-                    rv.Categoria,
-                    rv.precioVenta,
-                    rv.cantidad,
-                    rv.subTotal
+                    rv.nombre_cliente
                 });
             }
         }
@@ -123,10 +117,6 @@ namespace ProyectoTaller2.Capa_Presentacion.Vendedor
                             row.Cells[4].Value.ToString(),
                             row.Cells[5].Value.ToString(),
                             row.Cells[6].Value.ToString(),
-                            row.Cells[7].Value.ToString(),
-                            row.Cells[8].Value.ToString(),
-                            row.Cells[9].Value.ToString(),
-                            row.Cells[10].Value.ToString()
                         });
                     }
                 }

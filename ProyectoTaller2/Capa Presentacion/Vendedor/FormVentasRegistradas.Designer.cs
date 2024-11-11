@@ -53,10 +53,6 @@
             this.UsuarioRegistro = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DocumentoCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NombreCliente = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CodigoProducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NombreProducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Categoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PrecioVenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridReporteVentas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -242,11 +238,7 @@
             this.MontoTotal,
             this.UsuarioRegistro,
             this.DocumentoCliente,
-            this.NombreCliente,
-            this.CodigoProducto,
-            this.NombreProducto,
-            this.Categoria,
-            this.PrecioVenta});
+            this.NombreCliente});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -316,30 +308,6 @@
             this.NombreCliente.Name = "NombreCliente";
             this.NombreCliente.ReadOnly = true;
             // 
-            // CodigoProducto
-            // 
-            this.CodigoProducto.HeaderText = "Codigo Producto";
-            this.CodigoProducto.Name = "CodigoProducto";
-            this.CodigoProducto.ReadOnly = true;
-            // 
-            // NombreProducto
-            // 
-            this.NombreProducto.HeaderText = "Nombre Producto";
-            this.NombreProducto.Name = "NombreProducto";
-            this.NombreProducto.ReadOnly = true;
-            // 
-            // Categoria
-            // 
-            this.Categoria.HeaderText = "Categoria";
-            this.Categoria.Name = "Categoria";
-            this.Categoria.ReadOnly = true;
-            // 
-            // PrecioVenta
-            // 
-            this.PrecioVenta.HeaderText = "Precio Venta";
-            this.PrecioVenta.Name = "PrecioVenta";
-            this.PrecioVenta.ReadOnly = true;
-            // 
             // FormVentasRegistradas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -393,9 +361,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn UsuarioRegistro;
         private System.Windows.Forms.DataGridViewTextBoxColumn DocumentoCliente;
         private System.Windows.Forms.DataGridViewTextBoxColumn NombreCliente;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CodigoProducto;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NombreProducto;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Categoria;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PrecioVenta;
     }
 }

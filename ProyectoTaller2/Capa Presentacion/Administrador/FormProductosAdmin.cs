@@ -1,10 +1,13 @@
 ﻿using iTextSharp.text.pdf.codec.wmf;
+using ProyectoTaller2.Capa_Datos;
+using ProyectoTaller2.Capa_Entidades;
 using ProyectoTaller2.Capa_Negocio;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
@@ -217,18 +220,31 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
 
         private void LlenarCombos()
         {
-            using(var context = new proyecto_taller2Entities())
-            {
-                var categorias = context.categoria.Select(c => c.descripcion_categoria).ToList();
-                comboCategoriaProd.DataSource = categorias;
-                comboCategoriaProd.SelectedIndex = -1;
+            /* using(var context = new proyecto_taller2Entities())
+             {
+                 var categorias = context.categoria.Select(c => c.descripcion_categoria).ToList();
+                 comboCategoriaProd.DataSource = categorias;
+                 comboCategoriaProd.SelectedIndex = -1;
 
-                var marcas = context.marca.Select(m => m.descripcion_marca).ToList();
-                comboMarca.DataSource = marcas;
-                comboMarca.SelectedIndex = -1;
+                 var marcas = context.marca.Select(m => m.descripcion_marca).ToList();
+                 comboMarca.DataSource = marcas;
+                 comboMarca.SelectedIndex = -1;
 
-            }
-            
+             }*/
+
+            // Cargar marcas activas en el combo box
+            comboMarca.DataSource = ObtenerMarcasActivas();
+            comboMarca.DisplayMember = "descripcion_marca";
+            comboMarca.ValueMember = "id_marca";
+            comboMarca.SelectedIndex = -1;
+
+
+            // Cargar categorías activas en el combo box
+            comboCategoriaProd.DataSource = ObtenerCategoriasActivas();
+            comboCategoriaProd.DisplayMember = "descripcion_categoria";
+            comboCategoriaProd.ValueMember = "id_categoria";            
+            comboCategoriaProd.SelectedIndex = -1;
+
         }
 
         private void cargarProductos()
@@ -423,6 +439,52 @@ namespace ProyectoTaller2.Capa_Presentacion.Administrador
                     MessageBox.Show("No se encontró el producto seleccionado.");
                 }
             }
+        }
+
+        public List<Categoria> ObtenerCategoriasActivas()
+        {
+            List<Categoria> listaCategorias = new List<Categoria>();
+            using (SqlConnection conexion = new SqlConnection(Conexion.cadena))
+            {
+                conexion.Open();
+                SqlCommand cmd = new SqlCommand("SELECT id_categoria, descripcion_categoria FROM categoria WHERE estado_categoria = 'Activo'", conexion);
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        listaCategorias.Add(new Categoria
+                        {
+                            id_categoria = Convert.ToInt32(dr["id_categoria"]),
+                            descripcion_categoria = dr["descripcion_categoria"].ToString()
+                        });
+                    }
+                }
+            }
+            return listaCategorias;
+        }
+
+        public List<Marca> ObtenerMarcasActivas()
+        {
+            List<Marca> listaMarcas = new List<Marca>();
+            using (SqlConnection conexion = new SqlConnection(Conexion.cadena))
+            {
+                conexion.Open();
+                SqlCommand cmd = new SqlCommand("SELECT id_marca, descripcion_marca FROM marca WHERE estado_marca = 'Activo'", conexion);
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        listaMarcas.Add(new Marca
+                        {
+                            id_marca = Convert.ToInt32(dr["id_marca"]),
+                            descripcion_marca = dr["descripcion_marca"].ToString()
+                        });
+                    }
+                }
+            }
+            return listaMarcas;
         }
 
     }

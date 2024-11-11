@@ -15,12 +15,7 @@ namespace ProyectoTaller2.Capa_Entidades
         public string NombreUsuario { get; set; }
         public string dni_cliente { get; set; }
         public string nombre_cliente { get; set; }
-        public string CodigoProducto { get; set; }
-        public string NombreProducto { get; set; }
-        public string Categoria {  get; set; }
-        public string precioVenta { get; set; }
-        public string cantidad { get; set; }
-        public string subTotal {  get; set; }
+
 
     }
 }

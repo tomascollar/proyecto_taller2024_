@@ -60,7 +60,6 @@
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.Size = new System.Drawing.Size(200, 20);
             this.txtCliente.TabIndex = 1;
-            this.txtCliente.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDniCliente_KeyPress);
             // 
             // btnSeleccionar
             // 

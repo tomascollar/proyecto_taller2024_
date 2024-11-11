@@ -54,34 +54,36 @@ go
 
 -----REPORTE VENTAS-------
 
-DROP PROCEDURE IF EXISTS sp_ReporteVentas;
 
-CREATE PROC sp_ReporteVentas(
+ALTER PROC sp_ReporteVentas(
 @fechainicio varchar(10),
 @fechafin varchar(10)
 )
 as
 begin
 SET DATEFORMAT dmy;
-select
-convert(char(10),v.fecha_registro,103)[FechaRegistro],v.tipo_documento, v.numero_documento,v.monto_total,
-u.nombre_usuario[NombreUsuario],
-v.dni_cliente, v.nombre_cliente,
-p.codigo_producto[CodigoProducto], p.nombre_producto[NombreProducto],ca.descripcion_categoria[Categoria], dv.precioVenta, dv.cantidad, dv.subTotal
-from factura v
-inner join usuario u on u.id_usuario = v.id_usuario
-inner join factura_detalle dv on dv.id_factura = v.id_factura
-inner join productos p on p.id_producto = dv.id_producto
-inner join categoria ca on ca.id_categoria = p.id_categoria
-where CONVERT(date, v.fecha_registro) between @fechainicio and @fechafin
-end
+    SELECT 
+        convert(char(10), v.fecha_registro, 103) AS [FechaRegistro],
+        v.tipo_documento,
+        v.numero_documento,
+        v.monto_total,
+        u.nombre_usuario AS [NombreUsuario],
+        v.dni_cliente, 
+        v.nombre_cliente
+    FROM factura v
+    INNER JOIN usuario u ON u.id_usuario = v.id_usuario
+    WHERE CONVERT(date, v.fecha_registro) BETWEEN @fechainicio AND @fechafin
+    GROUP BY 
+        v.fecha_registro, v.tipo_documento, v.numero_documento, v.monto_total, 
+        u.nombre_usuario, v.dni_cliente, v.nombre_cliente
+END
 
 
 exec sp_ReporteVentas '2/11/2024','11/11/2024'
 
 ----sp para generar reporte de ventas por vendedor
 
-CREATE PROCEDURE sp_ReporteVentasPorVendedor
+create PROCEDURE sp_ReporteVentasPorVendedor
     @id_usuario INT
 AS
 BEGIN
@@ -92,19 +94,18 @@ BEGIN
         v.monto_total,
         u.nombre_usuario AS [NombreUsuario],
         v.dni_cliente,
-        v.nombre_cliente,
-        p.codigo_producto AS [CodigoProducto],
-        p.nombre_producto AS [NombreProducto],
-        ca.descripcion_categoria AS [Categoria],
-        dv.precioVenta,
-        dv.cantidad,
-        dv.subTotal
+        v.nombre_cliente
     FROM factura v
     INNER JOIN usuario u ON u.id_usuario = v.id_usuario
-    INNER JOIN factura_detalle dv ON dv.id_factura = v.id_factura
-    INNER JOIN productos p ON p.id_producto = dv.id_producto
-    INNER JOIN categoria ca ON ca.id_categoria = p.id_categoria
     WHERE v.id_usuario = @id_usuario
+    GROUP BY 
+        v.fecha_registro,
+        v.tipo_documento,
+        v.numero_documento,
+        v.monto_total,
+        u.nombre_usuario,
+        v.dni_cliente,
+        v.nombre_cliente;
 END;
 
 EXEC sp_ReporteVentasPorVendedor @id_usuario = 9;

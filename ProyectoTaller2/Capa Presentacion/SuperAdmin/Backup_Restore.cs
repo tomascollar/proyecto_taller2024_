@@ -81,15 +81,25 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
                     {
                         connection.Open();
 
-                        // Prepara el comando SQL para restaurar la base de datos
-                        string query = $@"
-                    RESTORE DATABASE [proyecto_taller2]
-                    FROM DISK = '{backupFilePath}'
-                    WITH REPLACE, RECOVERY;"; // WITH REPLACE sobrescribe la base de datos existente
+                        // Cerrar todas las conexiones activas a la base de datos
+                        string setSingleUserQuery = "ALTER DATABASE [proyecto_taller2] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;";
+                        SqlCommand setSingleUserCommand = new SqlCommand(setSingleUserQuery, connection);
+                        setSingleUserCommand.ExecuteNonQuery();
 
-                        // Ejecuta el comando SQL
-                        SqlCommand command = new SqlCommand(query, connection);
-                        command.ExecuteNonQuery();
+                        // Prepara el comando SQL para restaurar la base de datos
+                        string restoreQuery = $@"
+                           RESTORE DATABASE [proyecto_taller2]
+                           FROM DISK = '{backupFilePath}'
+                           WITH REPLACE, RECOVERY;";
+
+                        // Ejecuta el comando SQL de restauración
+                        SqlCommand restoreCommand = new SqlCommand(restoreQuery, connection);
+                        restoreCommand.ExecuteNonQuery();
+
+                        // Cambia la base de datos de nuevo a multiusuario
+                        string setMultiUserQuery = "ALTER DATABASE [proyecto_taller2] SET MULTI_USER;";
+                        SqlCommand setMultiUserCommand = new SqlCommand(setMultiUserQuery, connection);
+                        setMultiUserCommand.ExecuteNonQuery();
 
                         MessageBox.Show("Base de datos restaurada exitosamente.");
                     }

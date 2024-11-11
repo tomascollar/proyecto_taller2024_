@@ -40,13 +40,7 @@ namespace ProyectoTaller2.Capa_Datos
                                 monto_total = dr["monto_total"].ToString(),
                                 NombreUsuario = dr["NombreUsuario"].ToString(),
                                 dni_cliente = dr["dni_cliente"].ToString(),
-                                nombre_cliente = dr["nombre_cliente"].ToString(),
-                                CodigoProducto = dr["CodigoProducto"].ToString(),
-                                NombreProducto = dr["NombreProducto"].ToString(),
-                                Categoria = dr["Categoria"].ToString(),
-                                precioVenta = dr["precioVenta"].ToString(),
-                                cantidad = dr["cantidad"].ToString(),
-                                subTotal = dr["subTotal"].ToString(),
+                                nombre_cliente = dr["nombre_cliente"].ToString()
                             });
                         }
                     }

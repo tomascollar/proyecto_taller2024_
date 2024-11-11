@@ -20,13 +20,7 @@ namespace ProyectoTaller2.Capa_Presentacion.Vendedor
 
         private void Form_ListaProductos_Load(object sender, EventArgs e)
         {
-            foreach (DataGridViewColumn columna in dataGridListaProductos.Columns)
-            {
-                comboListarProducto.Items.Add(new OpcionCombo() { Valor = columna.Name, Texto = columna.HeaderText });
-            }
-
-            comboListarProducto.DisplayMember = "Texto";
-            comboListarProducto.ValueMember = "Valor";
+            
            // comboListarProducto.SelectedIndex = 0;
 
 
@@ -52,6 +46,17 @@ namespace ProyectoTaller2.Capa_Presentacion.Vendedor
             }
 
             this.formato();
+
+            foreach (DataGridViewColumn columna in dataGridListaProductos.Columns)
+            {
+                if(columna.Visible)
+                comboListarProducto.Items.Add(new OpcionCombo() { Valor = columna.Name, Texto = columna.HeaderText });
+            }
+
+            comboListarProducto.DisplayMember = "Texto";
+            comboListarProducto.ValueMember = "Valor";
+            comboListarProducto.SelectedIndex = 0;
+           
 
         }
 
@@ -106,6 +111,10 @@ namespace ProyectoTaller2.Capa_Presentacion.Vendedor
 
             if (dataGridListaProductos.Rows.Count > 0)
             {
+                // Desactiva temporalmente el modo de administración de divisa
+                CurrencyManager currencyManager = (CurrencyManager)BindingContext[dataGridListaProductos.DataSource];
+                currencyManager.SuspendBinding();
+
                 foreach (DataGridViewRow row in dataGridListaProductos.Rows)
                 {
                     if (row.Cells[columnaFiltro].Value.ToString().Trim().ToUpper().Contains(txtBuscarProducto.Text.Trim().ToUpper()))
@@ -113,6 +122,9 @@ namespace ProyectoTaller2.Capa_Presentacion.Vendedor
                     else
                         row.Visible = false;
                 }
+
+                // Reactiva el modo de administración de divisa
+                currencyManager.ResumeBinding();
             }
         }
 
