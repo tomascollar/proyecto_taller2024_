@@ -10,6 +10,8 @@ namespace ProyectoTaller2.Capa_Entidades
     {
         public int id_marca {  get; set; }
         public string descripcion_marca { get; set; }
+        public string estado_marca { get; set; }
+
 
     }
 }

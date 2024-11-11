@@ -1,4 +1,5 @@
 ﻿using ProyectoTaller2.Capa_Datos;
+using ProyectoTaller2.Capa_Entidades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,26 +8,57 @@ using System.Threading.Tasks;
 
 namespace ProyectoTaller2.Capa_Negocio
 {
-    internal class NegocioMarca
+    public class NegocioMarca
     {
+        private DatosMarca objcd_Marca = new DatosMarca();
 
-        private DatosMarca datos = new DatosMarca();
-
-        public bool AgregarMarca(string param_descripcion)
+        public List<Marca> Listar()
         {
-            var obj = new marca
-            {
-                descripcion_marca = param_descripcion
-            };
-
-            datos.InsertarMarca(obj);
-            return true;
+            return objcd_Marca.Listar();
         }
 
-        public List<marca> ListarMarcas()
+        public int Registrar(Marca obj, out string Mensaje)
         {
-            var lst = datos.ObtenerMarcas();
-            return lst;
+            Mensaje = string.Empty;
+
+            if (obj.descripcion_marca == "")
+            {
+                Mensaje += "Es necesario la descripcion de la Marca\n";
+            }
+
+            if (Mensaje != string.Empty)
+            {
+                return 0;
+            }
+            else
+            {
+                return objcd_Marca.Registrar(obj, out Mensaje);
+            }
+        }
+
+        /*public bool Editar(Marca obj, out string Mensaje)
+        {
+            Mensaje = string.Empty;
+
+            if (obj.descripcion_marca == "")
+            {
+                Mensaje += "Es necesario la descripcion de la Marca\n";
+            }
+
+            if (Mensaje != string.Empty)
+            {
+                return false;
+            }
+            else
+            {
+                return objcd_Marca.Editar(obj, out Mensaje);
+            }
+
+        }*/
+
+        public bool Eliminar(Marca obj, out string Mensaje)
+        {
+            return objcd_Marca.Eliminar(obj, out Mensaje);
         }
 
     }

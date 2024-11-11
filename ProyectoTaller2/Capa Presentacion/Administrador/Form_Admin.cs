@@ -313,5 +313,15 @@ namespace ProyectoTaller2.CapaPresentacion.Administrador
 
             openChildForm(new FormProductosAdmin());
         }
+
+        private void gestionarCategoria_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Form_Categorias());
+        }
+
+        private void gestionarMarca_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Form_Marcas());
+        }
     }
 }

@@ -10,6 +10,8 @@ namespace ProyectoTaller2.Capa_Entidades
     {
         public int id_categoria {  get; set; }
         public string descripcion_categoria { get; set; }
+        public string estado_categoria { get; set; }
+
 
     }
 }

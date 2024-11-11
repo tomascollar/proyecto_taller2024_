@@ -250,3 +250,126 @@ BEGIN
         TotalVendidos DESC;
 END
 
+go
+
+
+-----procedimiento para registrar una categoria
+
+CREATE PROC SP_RegistrarCategoria(
+@Descripcion varchar(50),
+@Resultado int output,
+@Mensaje varchar(500) output
+)as
+begin
+	SET @Resultado = 0
+	if not exists (select * from categoria where descripcion_categoria = @Descripcion)
+	begin
+		insert into categoria(descripcion_categoria, estado_categoria)
+		values (@Descripcion,'Activo')
+		set @Resultado =  SCOPE_IDENTITY()
+	end
+	else
+		set @Mensaje = 'No se puede repetir la descripcion de una categoria'
+end
+
+go
+
+----procedimiento para modificar categoria
+create proc sp_EditarCategoria(
+@IdCategoria int,
+@Descripcion varchar(50),
+@Resultado bit output,
+@Mensaje varchar(500) output
+)
+as
+begin
+	set @Resultado = 1
+	if not exists (select * from categoria where descripcion_categoria = @Descripcion and id_categoria != @IdCategoria)
+		update categoria set
+		descripcion_categoria = @Descripcion
+		where id_categoria = @IdCategoria
+	else
+	begin
+		set @Resultado = 0
+		set @Mensaje = 'No se puede repetir la descripcion de una categoria'
+
+	end
+
+end
+
+go
+--------------------
+
+create proc sp_EliminarCategoria(
+@IdCategoria int,
+@Resultado bit output,
+@Mensaje varchar(500) output
+)
+as
+begin
+	set @Resultado = 1
+	if not exists (
+		select * from categoria c
+		inner join productos p on p.id_categoria = c.id_categoria
+		where c.id_categoria = @IdCategoria
+		)
+		begin
+			update categoria set estado_categoria = 'Inactivo' where id_categoria = @IdCategoria
+		end
+	else
+	begin
+		set @Resultado = 0
+		set @Mensaje = 'Esta categoria esta relacionada a un producto y no puede ser eliminada'
+	end
+end
+
+go
+
+---------SP PARA AGREGAR MARCA
+CREATE PROC SP_RegistrarMarca(
+@Descripcion varchar(50),
+@Resultado int output,
+@Mensaje varchar(500) output
+)as
+begin
+	SET @Resultado = 0
+	if not exists (select * from marca where descripcion_marca = @Descripcion)
+	begin
+		insert into marca(descripcion_marca, estado_marca)
+		values (@Descripcion,'Activo')
+		set @Resultado =  SCOPE_IDENTITY()
+	end
+	else
+		set @Mensaje = 'No se puede repetir la descripcion de una marca'
+end
+
+go
+
+-----SP PARA BAJA LOGICA DE UNA MARCA
+
+create proc sp_EliminarMarca(
+@IdMarca int,
+@Resultado bit output,
+@Mensaje varchar(500) output
+)
+as
+begin
+	set @Resultado = 1
+	if not exists (
+		select * from marca m
+		inner join productos p on p.id_marca = m.id_marca
+		where m.id_marca = @IdMarca
+		)
+		begin
+			update marca set estado_marca = 'Inactivo' where id_marca = @IdMarca
+		end
+	else
+	begin
+		set @Resultado = 0
+		set @Mensaje = 'Esta marca esta relacionada a un producto y no puede ser eliminada'
+	end
+end
+
+go
+
+---------

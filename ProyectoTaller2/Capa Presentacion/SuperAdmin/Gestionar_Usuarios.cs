@@ -65,10 +65,7 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
 
         private void Gestionar_Usuarios_Load(object sender, EventArgs e)
         {
-            //creo instancia del contexto de datos
-            // CargarUsuarios();
-            
-            // dataGridUsuarios.ClearSelection();
+
             dataGridUsuarios.Visible = false;
 
 

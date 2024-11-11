@@ -388,14 +388,16 @@
             // gestionarMarca
             // 
             this.gestionarMarca.Name = "gestionarMarca";
-            this.gestionarMarca.Size = new System.Drawing.Size(130, 22);
+            this.gestionarMarca.Size = new System.Drawing.Size(180, 22);
             this.gestionarMarca.Text = "Marcas";
+            this.gestionarMarca.Click += new System.EventHandler(this.gestionarMarca_Click);
             // 
             // gestionarCategoria
             // 
             this.gestionarCategoria.Name = "gestionarCategoria";
-            this.gestionarCategoria.Size = new System.Drawing.Size(130, 22);
+            this.gestionarCategoria.Size = new System.Drawing.Size(180, 22);
             this.gestionarCategoria.Text = "Categorias";
+            this.gestionarCategoria.Click += new System.EventHandler(this.gestionarCategoria_Click);
             // 
             // Form_Admin
             // 

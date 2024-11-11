@@ -276,6 +276,7 @@
     <Compile Include="Capa Entidades\ReporteVenta.cs" />
     <Compile Include="Capa Entidades\Tipo_usuario.cs" />
     <Compile Include="Capa Entidades\Usuario.cs" />
+    <Compile Include="Capa Negocio\NegocioCategoria.cs" />
     <Compile Include="Capa Negocio\NegocioCliente.cs" />
     <Compile Include="Capa Negocio\NegocioFactura.cs" />
     <Compile Include="Capa Negocio\NegocioMarca.cs" />
@@ -317,11 +318,35 @@
     <Compile Include="Capa Presentacion\Administrador\Form_AgregarProducto.Designer.cs">
       <DependentUpon>Form_AgregarProducto.cs</DependentUpon>
     </Compile>
+    <Compile Include="Capa Presentacion\Administrador\Form_Categorias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Capa Presentacion\Administrador\Form_Categorias.Designer.cs">
+      <DependentUpon>Form_Categorias.cs</DependentUpon>
+    </Compile>
     <Compile Include="Capa Presentacion\Administrador\Form_Editar_Cliente.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Capa Presentacion\Administrador\Form_Editar_Cliente.Designer.cs">
       <DependentUpon>Form_Editar_Cliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Capa Presentacion\Administrador\Form_Marcas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Capa Presentacion\Administrador\Form_Marcas.Designer.cs">
+      <DependentUpon>Form_Marcas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Capa Presentacion\Administrador\Form_NuevaCategoria.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Capa Presentacion\Administrador\Form_NuevaCategoria.Designer.cs">
+      <DependentUpon>Form_NuevaCategoria.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Capa Presentacion\Administrador\Form_NuevaMarca.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Capa Presentacion\Administrador\Form_NuevaMarca.Designer.cs">
+      <DependentUpon>Form_NuevaMarca.cs</DependentUpon>
     </Compile>
     <Compile Include="Capa Presentacion\Administrador\Reporte_ventas.cs">
       <SubType>Form</SubType>
@@ -506,8 +531,20 @@
     <EmbeddedResource Include="Capa Presentacion\Administrador\Form_AgregarProducto.resx">
       <DependentUpon>Form_AgregarProducto.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Capa Presentacion\Administrador\Form_Categorias.resx">
+      <DependentUpon>Form_Categorias.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Capa Presentacion\Administrador\Form_Editar_Cliente.resx">
       <DependentUpon>Form_Editar_Cliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Capa Presentacion\Administrador\Form_Marcas.resx">
+      <DependentUpon>Form_Marcas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Capa Presentacion\Administrador\Form_NuevaCategoria.resx">
+      <DependentUpon>Form_NuevaCategoria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Capa Presentacion\Administrador\Form_NuevaMarca.resx">
+      <DependentUpon>Form_NuevaMarca.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Capa Presentacion\Administrador\Reporte_ventas.resx">
       <DependentUpon>Reporte_ventas.cs</DependentUpon>

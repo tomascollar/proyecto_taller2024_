@@ -646,3 +646,7 @@ C:\Users\tomas\OneDrive\Escritorio\git\proyecto_taller2024_\ProyectoTaller2\obj\
 C:\Users\tomas\OneDrive\Escritorio\git\proyecto_taller2024_\ProyectoTaller2\obj\Debug\ProyectoTaller2.exe
 C:\Users\tomas\OneDrive\Escritorio\git\proyecto_taller2024_\ProyectoTaller2\obj\Debug\ProyectoTaller2.pdb
 C:\Users\tomas\OneDrive\Escritorio\git\proyecto_taller2024_\ProyectoTaller2\obj\Debug\ProyectoTaller2.Capa_Presentacion.Administrador.Form_Editar_Cliente.resources
+C:\Users\tomas\OneDrive\Escritorio\git\proyecto_taller2024_\ProyectoTaller2\obj\Debug\ProyectoTaller2.Capa_Presentacion.Administrador.Form_Categorias.resources
+C:\Users\tomas\OneDrive\Escritorio\git\proyecto_taller2024_\ProyectoTaller2\obj\Debug\ProyectoTaller2.Capa_Presentacion.Administrador.Form_NuevaCategoria.resources
+C:\Users\tomas\OneDrive\Escritorio\git\proyecto_taller2024_\ProyectoTaller2\obj\Debug\ProyectoTaller2.Capa_Presentacion.Administrador.Form_Marcas.resources
+C:\Users\tomas\OneDrive\Escritorio\git\proyecto_taller2024_\ProyectoTaller2\obj\Debug\ProyectoTaller2.Capa_Presentacion.Administrador.Form_NuevaMarca.resources
