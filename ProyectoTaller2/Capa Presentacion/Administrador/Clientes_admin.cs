@@ -120,11 +120,7 @@ namespace ProyectoTaller2.CapaPresentacion.Administrador
 
         private void txtBuscarDni_KeyPress(object sender, KeyPressEventArgs e)
         {
-            bool valida = Validar.soloNumeros(e);
-            if (!valida)
-                errorP.SetError(txtBuscarDni, "Solo numeros");
-            else
-                errorP.Clear();
+
         }
 
         private void formato()

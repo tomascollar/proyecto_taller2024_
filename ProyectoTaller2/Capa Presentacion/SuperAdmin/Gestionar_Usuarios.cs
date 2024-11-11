@@ -46,6 +46,9 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
 
         private void CargarUsuarios()
         {
+            // Limpia las filas actuales en el DataGridView
+            dataGridView1.Rows.Clear();
+
             //Mostrar los usuarios
             List<Usuario> listaUsuario = new NegocioUsuario().Listar();
 
@@ -58,8 +61,10 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
               item.oTipo_Usuario.id_tipo_usario,item.oTipo_Usuario.descripcion_tipo_usuario,
               item.estado_usuario
             });
-
             }
+
+            // Limpia la selección del DataGridView después de cargar las categorías
+            dataGridView1.ClearSelection();
 
         }
 
@@ -85,6 +90,8 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
                // comboBox1.Items.RemoveAt(comboBox1.Items.Count - 1);
             }
 
+
+            /*
             //Mostrar los usuarios
             List<Usuario> listaUsuario = new NegocioUsuario().Listar();
 
@@ -99,7 +106,9 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
             });
             }
 
-            dataGridView1.ClearSelection();
+            dataGridView1.ClearSelection();*/
+
+            CargarUsuarios();
         }
         
 
@@ -131,14 +140,15 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
                     // Actualiza el DataGridView después de la baja lógica
                     MessageBox.Show("El usuario ha sido dado de baja.");
 
-                    dataGridView1.Refresh();
-                  
+                    dataGridView1.Refresh();                  
                 }
             }
             else
             {
                 MessageBox.Show("Por favor, selecciona un usuario para darlo de baja.");
             }
+
+            CargarUsuarios();
         }
         
         private void dataGridUsuarios_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
@@ -276,6 +286,7 @@ namespace ProyectoTaller2.Capa_Presentacion.SuperAdmin
                 
                 MessageBox.Show("Usuario reactivado con éxito.");
             }
+            CargarUsuarios();
         }
 
         private void ReactivarUsuario(int idUsuario)

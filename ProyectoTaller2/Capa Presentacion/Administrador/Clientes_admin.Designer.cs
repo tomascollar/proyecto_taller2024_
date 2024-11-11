@@ -148,7 +148,6 @@
             this.txtBuscarDni.Name = "txtBuscarDni";
             this.txtBuscarDni.Size = new System.Drawing.Size(218, 24);
             this.txtBuscarDni.TabIndex = 5;
-            this.txtBuscarDni.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBuscarDni_KeyPress);
             // 
             // label2
             // 
